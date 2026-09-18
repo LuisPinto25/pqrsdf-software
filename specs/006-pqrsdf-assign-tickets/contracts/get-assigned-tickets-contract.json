@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetAssignedTicketsContract",
+  "description": "Retrieves tickets currently in process (Status = InReview) for administrative oversight and reassignment (GET /api/v1/assignments/assigned)",
+  "endpoint": {
+    "method": "GET",
+    "path": "/api/v1/assignments/assigned",
+    "authenticated": true,
+    "requiredRole": "Administrador"
+  },
+  "parameters": {
+    "query": {
+      "type": "object",
+      "properties": {
+        "search": {
+          "type": "string",
+          "description": "Search by radicado number or subject"
+        },
+        "officialId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Filter by assigned official"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "List of tickets currently in review",
+      "content": {
+        "application/json": {
+          "type": "object",
+          "required": ["isSuccess", "value"],
+          "properties": {
+            "isSuccess": { "type": "boolean", "const": true },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "radicadoNumber",
+                  "type",
+                  "typeName",
+                  "destinationAreaName",
+                  "subject",
+                  "assignedToUserId",
+                  "assignedOfficialName",
+                  "assignedAtUtc",
+                  "assignmentNote",
+                  "dueDateUtc",
+                  "remainingBusinessDays",
+                  "urgencyLevel"
+                ],
+                "properties": {
+                  "id": { "type": "string", "format": "uuid" },
+                  "radicadoNumber": { "type": "string", "example": "2026-00000001" },
+                  "type": { "type": "integer", "example": 1 },
+                  "typeName": { "type": "string", "example": "Petición" },
+                  "destinationAreaName": { "type": "string", "example": "Oficina Jurídica" },
+                  "subject": { "type": "string", "example": "Solicitud de copia de acta de posesión" },
+                  "assignedToUserId": { "type": "string", "format": "uuid" },
+                  "assignedOfficialName": { "type": "string", "example": "Juan Carlos Pérez" },
+                  "assignedAtUtc": { "type": "string", "format": "date-time" },
+                  "assignmentNote": { "type": "string", "example": "Priorizar revisión" },
+                  "dueDateUtc": { "type": "string", "format": "date-time" },
+                  "remainingBusinessDays": { "type": "integer", "example": 5 },
+                  "urgencyLevel": { "type": "string", "enum": ["Critical", "Attention", "OnTime"], "example": "Attention" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Unauthenticated"
+    },
+    "403": {
+      "description": "Forbidden - requires Administrador role"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetAssignableOfficialsContract",
+  "description": "Retrieves active staff users with role Funcionario, their active ticket workload count, and capacity eligibility (GET /api/v1/assignments/officials)",
+  "endpoint": {
+    "method": "GET",
+    "path": "/api/v1/assignments/officials",
+    "authenticated": true,
+    "requiredRole": "Administrador"
+  },
+  "responses": {
+    "200": {
+      "description": "List of active officials and their current workload",
+      "content": {
+        "application/json": {
+          "type": "object",
+          "required": ["isSuccess", "value"],
+          "properties": {
+            "isSuccess": { "type": "boolean", "const": true },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "fullName",
+                  "email",
+                  "activeTicketsCount",
+                  "maxCapacity",
+                  "canAssign"
+                ],
+                "properties": {
+                  "id": { "type": "string", "format": "uuid" },
+                  "fullName": { "type": "string", "example": "Juan Carlos Pérez" },
+                  "email": { "type": "string", "format": "email", "example": "funcionario@pqrsdf.gov.co" },
+                  "activeTicketsCount": { "type": "integer", "minimum": 0, "maximum": 5, "example": 3 },
+                  "maxCapacity": { "type": "integer", "const": 5 },
+                  "canAssign": { "type": "boolean", "example": true, "description": "True if activeTicketsCount < 5; false if at max capacity" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Missing or invalid JWT token"
+    },
+    "403": {
+      "description": "Forbidden - requires Administrador role"
+    }
+  }
+}

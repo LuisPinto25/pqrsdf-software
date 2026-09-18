@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetUnassignedTicketsContract",
+  "description": "Retrieves unassigned PQRSDF requests (Status = Registered) ordered by nearest legal due date, with optional filters by request type and destination area (GET /api/v1/assignments/unassigned)",
+  "endpoint": {
+    "method": "GET",
+    "path": "/api/v1/assignments/unassigned",
+    "authenticated": true,
+    "requiredRole": "Administrador"
+  },
+  "parameters": {
+    "query": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "enum": [1, 2, 3, 4, 5, 6],
+          "description": "Optional filter by PQRSDF request type (1=Petition, 2=Complaint, 3=Claim, 4=Suggestion, 5=Denunciation, 6=Compliment)"
+        },
+        "destinationAreaId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Optional filter by destination area GUID"
+        },
+        "search": {
+          "type": "string",
+          "description": "Optional search term for radicado number or subject"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "List of unassigned tickets retrieved successfully",
+      "content": {
+        "application/json": {
+          "type": "object",
+          "required": ["isSuccess", "value"],
+          "properties": {
+            "isSuccess": { "type": "boolean", "const": true },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "radicadoNumber",
+                  "type",
+                  "typeName",
+                  "destinationAreaId",
+                  "destinationAreaName",
+                  "subject",
+                  "description",
+                  "filingDateUtc",
+                  "dueDateUtc",
+                  "remainingBusinessDays",
+                  "urgencyLevel"
+                ],
+                "properties": {
+                  "id": { "type": "string", "format": "uuid" },
+                  "radicadoNumber": { "type": "string", "example": "2026-00000001" },
+                  "type": { "type": "integer", "example": 1 },
+                  "typeName": { "type": "string", "example": "Petición" },
+                  "destinationAreaId": { "type": "string", "format": "uuid" },
+                  "destinationAreaName": { "type": "string", "example": "Oficina Jurídica" },
+                  "subject": { "type": "string", "example": "Solicitud de copia de acta de posesión" },
+                  "description": { "type": "string", "example": "Por medio de la presente solicito copia auténtica del acta..." },
+                  "filingDateUtc": { "type": "string", "format": "date-time" },
+                  "dueDateUtc": { "type": "string", "format": "date-time" },
+                  "remainingBusinessDays": { "type": "integer", "example": 3 },
+                  "urgencyLevel": { "type": "string", "enum": ["Critical", "Attention", "OnTime"], "example": "Critical" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Missing or invalid JWT token"
+    },
+    "403": {
+      "description": "User is authenticated but does not possess the Administrador role"
+    }
+  }
+}
