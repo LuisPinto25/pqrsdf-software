@@ -16,11 +16,11 @@
 
 **Purpose**: Project initialization, package dependencies, environment templates, and framework configuration in `frontend/`.
 
-- [ ] T001 Initialize Next.js 15 application configuration, scripts, and dependencies in `frontend/package.json`
-- [ ] T002 [P] Configure strict TypeScript compiler settings (`"strict": true`) and path aliases (`@/app/*`, `@/shared/*`) in `frontend/tsconfig.json`
-- [ ] T003 [P] Configure Tailwind CSS and PostCSS targeting the institutional light theme in `frontend/tailwind.config.ts`, `frontend/postcss.config.mjs`, and `frontend/src/app/globals.css`
-- [ ] T004 [P] Configure committed environment variables template in `frontend/.env.example` and exclusion rules in `frontend/.gitignore`
-- [ ] T005 Configure HTTP security headers (CSP, X-Frame-Options, X-Content-Type-Options) and next-intl plugin in `frontend/next.config.ts`
+- [X] T001 Initialize Next.js 15 application configuration, scripts, and dependencies in `frontend/package.json`
+- [X] T002 [P] Configure strict TypeScript compiler settings (`"strict": true`) and path aliases (`@/app/*`, `@/shared/*`) in `frontend/tsconfig.json`
+- [X] T003 [P] Configure Tailwind CSS and PostCSS targeting the institutional light theme in `frontend/tailwind.config.ts`, `frontend/postcss.config.mjs`, and `frontend/src/app/globals.css`
+- [X] T004 [P] Configure committed environment variables template in `frontend/.env.example` and exclusion rules in `frontend/.gitignore`
+- [X] T005 Configure HTTP security headers (CSP, X-Frame-Options, X-Content-Type-Options) and next-intl plugin in `frontend/next.config.ts`
 
 ---
 
@@ -30,11 +30,11 @@
 
 **⚠️ CRITICAL**: No user story implementation can begin until this phase is complete.
 
-- [ ] T006 Implement zero-dependency `Result<T, E>` monad and type guards (`ok`, `err`, `isOk`, `isErr`) in `frontend/src/shared/types/result.ts`
-- [ ] T007 [P] Define `ApiError` interface and HTTP error structures in `frontend/src/shared/types/api.ts`
-- [ ] T008 [P] Configure Vitest test runner, JSDOM environment, and global Next.js navigation mocks in `frontend/vitest.config.ts` and `frontend/tests/setup.ts`
-- [ ] T009 [P] Configure ESLint flat config with `eslint-plugin-boundaries` preventing cross-domain imports and Prettier in `frontend/eslint.config.mjs`
-- [ ] T010 Setup `next-intl` request handler with Spanish default locale in `frontend/src/i18n/request.ts` and type augmentation in `frontend/src/types/global.d.ts`
+- [X] T006 Implement zero-dependency `Result<T, E>` monad and type guards (`ok`, `err`, `isOk`, `isErr`) in `frontend/src/shared/types/result.ts`
+- [X] T007 [P] Define `ApiError` interface and HTTP error structures in `frontend/src/shared/types/api.ts`
+- [X] T008 [P] Configure Vitest test runner, JSDOM environment, and global Next.js navigation mocks in `frontend/vitest.config.ts` and `frontend/tests/setup.ts`
+- [X] T009 [P] Configure ESLint flat config with `eslint-plugin-boundaries` preventing cross-domain imports and Prettier in `frontend/eslint.config.mjs`
+- [X] T010 Setup `next-intl` request handler with Spanish default locale in `frontend/src/i18n/request.ts` and type augmentation in `frontend/src/types/global.d.ts`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin.
 
@@ -47,13 +47,13 @@
 **Independent Test**: Run `pnpm install`, `pnpm typecheck`, `pnpm lint`, and `pnpm dev` inside `frontend/`; verify that the app launches at `http://localhost:3000` displaying the localized landing page with 0 errors.
 
 ### Tests for User Story 1
-- [ ] T011 [P] [US1] Create unit tests verifying `Result<T, E>` type guards (`ok`, `err`, `isOk`, `isErr`) in `frontend/tests/unit/result.test.ts`
+- [X] T011 [P] [US1] Create unit tests verifying `Result<T, E>` type guards (`ok`, `err`, `isOk`, `isErr`) in `frontend/tests/unit/result.test.ts`
 
 ### Implementation for User Story 1
-- [ ] T012 [P] [US1] Create central Spanish message dictionary with `Common` and `Navigation` namespaces in `frontend/messages/es.json`
-- [ ] T013 [US1] Implement root layout with HTML lang attribute, base fonts, and `NextIntlClientProvider` in `frontend/src/app/layout.tsx`
-- [ ] T014 [US1] Implement landing home page with localized institutional portal presentation and domain links in `frontend/src/app/page.tsx`
-- [ ] T015 [US1] Create comprehensive developer documentation covering prerequisites, installation, and available scripts in `frontend/README.md`
+- [X] T012 [P] [US1] Create central Spanish message dictionary with `Common` and `Navigation` namespaces in `frontend/messages/es.json`
+- [X] T013 [US1] Implement root layout with HTML lang attribute, base fonts, and `NextIntlClientProvider` in `frontend/src/app/layout.tsx`
+- [X] T014 [US1] Implement landing home page with localized institutional portal presentation and domain links in `frontend/src/app/page.tsx`
+- [X] T015 [US1] Create comprehensive developer documentation covering prerequisites, installation, and available scripts in `frontend/README.md`
 
 **Checkpoint**: At this point, User Story 1 is fully functional and delivers the runnable MVP foundation.
 
@@ -66,11 +66,11 @@
 **Independent Test**: Navigate to `/pqrsdf`, `/auth`, and `/dashboard`; verify each renders an informative placeholder in Spanish; run `pnpm lint` on intentional cross-domain imports and confirm ESLint reports boundary violations.
 
 ### Implementation for User Story 2
-- [ ] T016 [P] [US2] Add domain message catalogs for `Pqrsdf`, `Auth`, and `Dashboard` namespaces to `frontend/messages/es.json`
-- [ ] T017 [P] [US2] Implement PQRSDF domain route placeholder page in Spanish in `frontend/src/app/pqrsdf/page.tsx`
-- [ ] T018 [P] [US2] Implement Authentication domain route placeholder page in Spanish in `frontend/src/app/auth/page.tsx`
-- [ ] T019 [P] [US2] Implement Dashboard domain route placeholder page in Spanish in `frontend/src/app/dashboard/page.tsx`
-- [ ] T020 [US2] Verify and enforce ESLint boundary rules forbidding cross-feature imports between `src/app/auth` and `src/app/pqrsdf` in `frontend/eslint.config.mjs`
+- [X] T016 [P] [US2] Add domain message catalogs for `Pqrsdf`, `Auth`, and `Dashboard` namespaces to `frontend/messages/es.json`
+- [X] T017 [P] [US2] Implement PQRSDF domain route placeholder page in Spanish in `frontend/src/app/pqrsdf/page.tsx`
+- [X] T018 [P] [US2] Implement Authentication domain route placeholder page in Spanish in `frontend/src/app/auth/page.tsx`
+- [X] T019 [P] [US2] Implement Dashboard domain route placeholder page in Spanish in `frontend/src/app/dashboard/page.tsx`
+- [X] T020 [US2] Verify and enforce ESLint boundary rules forbidding cross-feature imports between `src/app/auth` and `src/app/pqrsdf` in `frontend/eslint.config.mjs`
 
 **Checkpoint**: User Stories 1 and 2 work independently. Screaming Architecture and module boundaries are fully established.
 
@@ -83,12 +83,12 @@
 **Independent Test**: Run `pnpm generate-api` to generate `schema.d.ts`; execute unit tests with mocked API responses verifying that `safeRequest` wraps data in `Ok` and maps HTTP errors into `Err<ApiError>` without throwing.
 
 ### Tests for User Story 3
-- [ ] T021 [P] [US3] Implement unit tests for `safeRequest` handling 200 OK, 4xx/5xx errors, and network failures with Vitest mocks in `frontend/tests/unit/client.test.ts`
+- [X] T021 [P] [US3] Implement unit tests for `safeRequest` handling 200 OK, 4xx/5xx errors, and network failures with Vitest mocks in `frontend/tests/unit/client.test.ts`
 
 ### Implementation for User Story 3
-- [ ] T022 [P] [US3] Create initial baseline OpenAPI TypeScript schema definition in `frontend/src/shared/api/generated/schema.d.ts`
-- [ ] T023 [US3] Implement strongly typed API client wrapper `rawClient` and `safeRequest` using `openapi-fetch` in `frontend/src/shared/api/client.ts`
-- [ ] T024 [P] [US3] Configure on-demand OpenAPI codegen script `pnpm generate-api` pointing to `OPENAPI_URL` with offline resilience in `frontend/package.json`
+- [X] T022 [P] [US3] Create initial baseline OpenAPI TypeScript schema definition in `frontend/src/shared/api/generated/schema.d.ts`
+- [X] T023 [US3] Implement strongly typed API client wrapper `rawClient` and `safeRequest` using `openapi-fetch` in `frontend/src/shared/api/client.ts`
+- [X] T024 [P] [US3] Configure on-demand OpenAPI codegen script `pnpm generate-api` pointing to `OPENAPI_URL` with offline resilience in `frontend/package.json`
 
 **Checkpoint**: User Story 3 is complete. API contracts and type-safe HTTP communication are ready for domain consumption.
 
@@ -101,13 +101,13 @@
 **Independent Test**: Navigate to `/invalid-url` to verify `not-found.tsx`; simulate a component throw to verify `error.tsx` renders retry action; run component tests for `LoadingSpinner`.
 
 ### Tests for User Story 4
-- [ ] T025 [P] [US4] Implement component test verifying `LoadingSpinner` ARIA attributes and accessibility in `frontend/tests/components/LoadingSpinner.test.tsx`
+- [X] T025 [P] [US4] Implement component test verifying `LoadingSpinner` ARIA attributes and accessibility in `frontend/tests/components/LoadingSpinner.test.tsx`
 
 ### Implementation for User Story 4
-- [ ] T026 [P] [US4] Implement accessible `LoadingSpinner` component with ARIA live region in `frontend/src/shared/components/LoadingSpinner.tsx`
-- [ ] T027 [P] [US4] Implement accessible `EmptyState` component with localized copy and action button in `frontend/src/shared/components/EmptyState.tsx`
-- [ ] T028 [US4] Implement global Client Error Boundary contingency screen with retry button in Spanish in `frontend/src/app/error.tsx`
-- [ ] T029 [US4] Implement global 404 Not Found screen with portal return link in Spanish in `frontend/src/app/not-found.tsx`
+- [X] T026 [P] [US4] Implement accessible `LoadingSpinner` component with ARIA live region in `frontend/src/shared/components/LoadingSpinner.tsx`
+- [X] T027 [P] [US4] Implement accessible `EmptyState` component with localized copy and action button in `frontend/src/shared/components/EmptyState.tsx`
+- [X] T028 [US4] Implement global Client Error Boundary contingency screen with retry button in Spanish in `frontend/src/app/error.tsx`
+- [X] T029 [US4] Implement global 404 Not Found screen with portal return link in Spanish in `frontend/src/app/not-found.tsx`
 
 **Checkpoint**: All user stories (US1 through US4) are fully functional and resilient.
 
@@ -117,8 +117,8 @@
 
 **Purpose**: End-to-end verification, formatting, and quickstart validation across the entire frontend application.
 
-- [ ] T030 [P] Execute complete automated verification suite (`pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm format:check`) per `specs/002-frontend-initial-setup/quickstart.md`
-- [ ] T031 Perform manual smoke testing of development server and all routes (`/`, `/pqrsdf`, `/auth`, `/dashboard`, 404) per `specs/002-frontend-initial-setup/quickstart.md`
+- [X] T030 [P] Execute complete automated verification suite (`pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm format:check`) per `specs/002-frontend-initial-setup/quickstart.md`
+- [X] T031 Perform manual smoke testing of development server and all routes (`/`, `/pqrsdf`, `/auth`, `/dashboard`, 404) per `specs/002-frontend-initial-setup/quickstart.md`
 
 ---
 

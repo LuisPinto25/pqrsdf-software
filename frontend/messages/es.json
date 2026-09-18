@@ -1,0 +1,42 @@
+{
+  "Common": {
+    "title": "Sistema PQRSDF",
+    "subtitle": "Portal de Gestión de Peticiones, Quejas, Reclamos, Sugerencias, Denuncias y Felicitaciones",
+    "loading": "Cargando contenido...",
+    "retry": "Reintentar",
+    "unexpectedError": "Ha ocurrido un error inesperado",
+    "offlineError": "No se pudo establecer conexión con el servidor",
+    "welcome": "Bienvenido al portal institucional de atención al ciudadano"
+  },
+  "Navigation": {
+    "home": "Inicio",
+    "pqrsdf": "PQRSDF",
+    "auth": "Autenticación",
+    "dashboard": "Panel de Control"
+  },
+  "Pqrsdf": {
+    "title": "Gestión de PQRSDF",
+    "description": "Radicación y consulta de Peticiones, Quejas, Reclamos, Sugerencias, Denuncias y Felicitaciones",
+    "placeholder": "Módulo de gestión de solicitudes PQRSDF en construcción"
+  },
+  "Auth": {
+    "title": "Inicio de Sesión",
+    "description": "Acceso seguro para ciudadanos y funcionarios",
+    "placeholder": "Módulo de autenticación en construcción"
+  },
+  "Dashboard": {
+    "title": "Panel de Control",
+    "description": "Resumen de indicadores y estado de trámites",
+    "placeholder": "Módulo de panel de control en construcción"
+  },
+  "NotFound": {
+    "title": "Página no encontrada",
+    "description": "El recurso solicitado no existe o ha sido movido.",
+    "backHome": "Volver al inicio"
+  },
+  "ErrorBoundary": {
+    "title": "Ha ocurrido un error inesperado",
+    "description": "Se ha presentado un fallo temporal al procesar su solicitud.",
+    "retry": "Intentar nuevamente"
+  }
+}
