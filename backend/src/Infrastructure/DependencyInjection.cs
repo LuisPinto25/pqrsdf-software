@@ -17,6 +17,10 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString));
 
         services.AddScoped<IDatabaseStatusChecker, DatabaseStatusChecker>();
+        services.AddScoped<Pqrsdf.Domain.Services.IRadicadoSequenceGenerator, Services.RadicadoSequenceGenerator>();
+        services.AddSingleton<Pqrsdf.Domain.Services.IColombianHolidayService, Services.ColombianHolidayService>();
+        services.AddScoped<Pqrsdf.Domain.Repositories.IDestinationAreaRepository, Persistence.Repositories.DestinationAreaRepository>();
+        services.AddScoped<Pqrsdf.Domain.Repositories.IPqrsdfTicketRepository, Persistence.Repositories.PqrsdfTicketRepository>();
 
         return services;
     }

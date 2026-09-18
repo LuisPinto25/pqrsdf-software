@@ -15,9 +15,9 @@
 
 **Purpose**: Project initialization, dependency installation, and message catalogs
 
-- [ ] T001 Verify backend solution build and frontend package scripts in `backend/Pqrsdf.slnx` and `frontend/package.json`
-- [ ] T002 [P] Install `react-hook-form` and `@hookform/resolvers` `zod` in `frontend/package.json` for form validation
-- [ ] T003 [P] Add Spanish message keys for PQRSDF public filing and confirmation in `frontend/messages/es.json`
+- [X] T001 Verify backend solution build and frontend package scripts in `backend/Pqrsdf.slnx` and `frontend/package.json`
+- [X] T002 [P] Install `react-hook-form` and `@hookform/resolvers` `zod` in `frontend/package.json` for form validation
+- [X] T003 [P] Add Spanish message keys for PQRSDF public filing and confirmation in `frontend/messages/es.json`
 
 ---
 
@@ -25,16 +25,16 @@
 
 **Purpose**: Core domain primitives, enums, value objects, and persistence configurations that block user story implementation
 
-- [ ] T004 Create `PqrsdfType`, `IdentificationType`, and `TicketStatus` enums in `backend/src/Domain/Enums/PqrsdfEnums.cs`
-- [ ] T005 [P] Create `RadicadoNumber` value object validating `YYYY-NNNNNNNN` format in `backend/src/Domain/ValueObjects/RadicadoNumber.cs`
-- [ ] T006 [P] Create `Applicant` value object with document and RFC 5322 email constraints in `backend/src/Domain/ValueObjects/Applicant.cs`
-- [ ] T007 [P] Create `DueDate` value object encapsulating legal deadlines in `backend/src/Domain/ValueObjects/DueDate.cs`
-- [ ] T008 [P] Create `DestinationArea` entity and `IDestinationAreaRepository` in `backend/src/Domain/Entities/DestinationArea.cs` and `backend/src/Domain/Repositories/IDestinationAreaRepository.cs`
-- [ ] T009 [P] Create `IRadicadoSequenceGenerator` domain interface in `backend/src/Domain/Services/IRadicadoSequenceGenerator.cs`
-- [ ] T010 [P] Create `IColombianHolidayService` domain interface in `backend/src/Domain/Services/IColombianHolidayService.cs`
-- [ ] T011 Create `RadicadoSequence` entity and atomic SQL Server sequence generator in `backend/src/Infrastructure/Services/RadicadoSequenceGenerator.cs`
-- [ ] T012 [P] Create EF Core entity configurations in `backend/src/Infrastructure/Persistence/Configurations/DestinationAreaConfiguration.cs` and `RadicadoSequenceConfiguration.cs`
-- [ ] T013 Register new entities, initial area seed data, and configurations in `backend/src/Infrastructure/Persistence/PqrsdfDbContext.cs`
+- [X] T004 Create `PqrsdfType`, `IdentificationType`, and `TicketStatus` enums in `backend/src/Domain/Enums/PqrsdfEnums.cs`
+- [X] T005 [P] Create `RadicadoNumber` value object validating `YYYY-NNNNNNNN` format in `backend/src/Domain/ValueObjects/RadicadoNumber.cs`
+- [X] T006 [P] Create `Applicant` value object with document and RFC 5322 email constraints in `backend/src/Domain/ValueObjects/Applicant.cs`
+- [X] T007 [P] Create `DueDate` value object encapsulating legal deadlines in `backend/src/Domain/ValueObjects/DueDate.cs`
+- [X] T008 [P] Create `DestinationArea` entity and `IDestinationAreaRepository` in `backend/src/Domain/Entities/DestinationArea.cs` and `backend/src/Domain/Repositories/IDestinationAreaRepository.cs`
+- [X] T009 [P] Create `IRadicadoSequenceGenerator` domain interface in `backend/src/Domain/Services/IRadicadoSequenceGenerator.cs`
+- [X] T010 [P] Create `IColombianHolidayService` domain interface in `backend/src/Domain/Services/IColombianHolidayService.cs`
+- [X] T011 Create `RadicadoSequence` entity and atomic SQL Server sequence generator in `backend/src/Infrastructure/Services/RadicadoSequenceGenerator.cs`
+- [X] T012 [P] Create EF Core entity configurations in `backend/src/Infrastructure/Persistence/Configurations/DestinationAreaConfiguration.cs` and `RadicadoSequenceConfiguration.cs`
+- [X] T013 Register new entities, initial area seed data, and configurations in `backend/src/Infrastructure/Persistence/PqrsdfDbContext.cs`
 
 **Checkpoint**: Core domain primitives and database infrastructure ready for user stories.
 
@@ -47,12 +47,12 @@
 **Independent Test**: Can be tested independently by running unit tests asserting exact business day deadlines forward from any calendar date, including holiday weekends, Holy Week, and end-of-year rollovers.
 
 ### Tests for User Story 4
-- [ ] T014 [P] [US4] Unit tests for Colombian holiday calculation (Butcher's algorithm and Ley Emiliani shifts) in `backend/tests/Application.UnitTests/Domain/ColombianHolidayServiceTests.cs`
-- [ ] T015 [P] [US4] Unit tests for business day due date calculation (15 vs 30 days) in `backend/tests/Application.UnitTests/Domain/DueDateCalculationTests.cs`
+- [X] T014 [P] [US4] Unit tests for Colombian holiday calculation (Butcher's algorithm and Ley Emiliani shifts) in `backend/tests/Application.UnitTests/Domain/ColombianHolidayServiceTests.cs`
+- [X] T015 [P] [US4] Unit tests for business day due date calculation (15 vs 30 days) in `backend/tests/Application.UnitTests/Domain/DueDateCalculationTests.cs`
 
 ### Implementation for User Story 4
-- [ ] T016 [US4] Implement `ColombianHolidayService` with Butcher's algorithm and Ley Emiliani Monday shifts in `backend/src/Infrastructure/Services/ColombianHolidayService.cs`
-- [ ] T017 [US4] Implement `DueDateCalculator` domain service orchestrating business days calculation in `backend/src/Domain/Services/DueDateCalculator.cs`
+- [X] T016 [US4] Implement `ColombianHolidayService` with Butcher's algorithm and Ley Emiliani Monday shifts in `backend/src/Infrastructure/Services/ColombianHolidayService.cs`
+- [X] T017 [US4] Implement `DueDateCalculator` domain service orchestrating business days calculation in `backend/src/Domain/Services/DueDateCalculator.cs`
 
 **Checkpoint**: Due date calculation engine complete and tested independently.
 
@@ -65,14 +65,14 @@
 **Independent Test**: Can be tested by calling `GET /api/v1/pqrsdf/areas` and asserting active areas returned, and rendering the frontend form selector.
 
 ### Tests for User Story 2
-- [ ] T018 [P] [US2] Unit tests for `GetActiveDestinationAreasQueryHandler` in `backend/tests/Application.UnitTests/Features/Pqrsdf/GetActiveDestinationAreasQueryHandlerTests.cs`
-- [ ] T019 [P] [US2] Hook test for `useDestinationAreas` in `frontend/tests/pqrsdf/useDestinationAreas.test.ts`
+- [X] T018 [P] [US2] Unit tests for `GetActiveDestinationAreasQueryHandler` in `backend/tests/Application.UnitTests/Features/Pqrsdf/GetActiveDestinationAreasQueryHandlerTests.cs`
+- [X] T019 [P] [US2] Hook test for `useDestinationAreas` in `frontend/tests/pqrsdf/useDestinationAreas.test.ts`
 
 ### Implementation for User Story 2
-- [ ] T020 [US2] Implement `GetActiveDestinationAreasQuery`, `GetActiveDestinationAreasQueryHandler`, and `DestinationAreaDto` in `backend/src/Application/Features/Pqrsdf/UseCases/GetActiveDestinationAreas/`
-- [ ] T021 [US2] Implement `DestinationAreaRepository` in `backend/src/Infrastructure/Persistence/Repositories/DestinationAreaRepository.cs`
-- [ ] T022 [US2] Expose `GET /api/v1/pqrsdf/areas` in `backend/src/Api/Controllers/V1/PqrsdfController.cs`
-- [ ] T023 [P] [US2] Implement `useDestinationAreas` hook with typed API client in `frontend/src/app/pqrsdf/hooks/useDestinationAreas.ts`
+- [X] T020 [US2] Implement `GetActiveDestinationAreasQuery`, `GetActiveDestinationAreasQueryHandler`, and `DestinationAreaDto` in `backend/src/Application/Features/Pqrsdf/UseCases/GetActiveDestinationAreas/`
+- [X] T021 [US2] Implement `DestinationAreaRepository` in `backend/src/Infrastructure/Persistence/Repositories/DestinationAreaRepository.cs`
+- [X] T022 [US2] Expose `GET /api/v1/pqrsdf/areas` in `backend/src/Api/Controllers/V1/PqrsdfController.cs`
+- [X] T023 [P] [US2] Implement `useDestinationAreas` hook with typed API client in `frontend/src/app/pqrsdf/hooks/useDestinationAreas.ts`
 
 **Checkpoint**: Destination areas can be queried and loaded dynamically.
 
@@ -85,19 +85,19 @@
 **Independent Test**: Can be tested by submitting valid tickets via `POST /api/v1/pqrsdf`, asserting HTTP 201 with unique radicado and calculated deadline, and verifying that anonymous submissions are allowed only for Denuncias and Sugerencias.
 
 ### Tests for User Story 1
-- [ ] T024 [P] [US1] Unit tests for `RadicadoNumber` value object invariants and format in `backend/tests/Application.UnitTests/Domain/RadicadoNumberTests.cs`
-- [ ] T025 [P] [US1] Unit tests for `MakePqrsdfCommandHandler` (standard, anonymous, and invalid input flows) in `backend/tests/Application.UnitTests/Features/Pqrsdf/MakePqrsdfCommandHandlerTests.cs`
-- [ ] T026 [P] [US1] Component tests for `PqrsdfForm` in `frontend/tests/pqrsdf/PqrsdfForm.test.tsx`
+- [X] T024 [P] [US1] Unit tests for `RadicadoNumber` value object invariants and format in `backend/tests/Application.UnitTests/Domain/RadicadoNumberTests.cs`
+- [X] T025 [P] [US1] Unit tests for `MakePqrsdfCommandHandler` (standard, anonymous, and invalid input flows) in `backend/tests/Application.UnitTests/Features/Pqrsdf/MakePqrsdfCommandHandlerTests.cs`
+- [X] T026 [P] [US1] Component tests for `PqrsdfForm` in `frontend/tests/pqrsdf/PqrsdfForm.test.tsx`
 
 ### Implementation for User Story 1
-- [ ] T027 [P] [US1] Create `PqrsdfTicket` aggregate root enforcing domain invariants and anonymous rules in `backend/src/Domain/Entities/PqrsdfTicket.cs`
-- [ ] T028 [P] [US1] Create `PqrsdfTicketConfiguration` for EF Core in `backend/src/Infrastructure/Persistence/Configurations/PqrsdfTicketConfiguration.cs`
-- [ ] T029 [P] [US1] Create `IPqrsdfTicketRepository` and `PqrsdfTicketRepository` in `backend/src/Domain/Repositories/IPqrsdfTicketRepository.cs` and `backend/src/Infrastructure/Persistence/Repositories/PqrsdfTicketRepository.cs`
-- [ ] T030 [US1] Implement `MakePqrsdfCommand`, `MakePqrsdfCommandHandler`, `MakePqrsdfRequest`, `MakePqrsdfResponse`, and `MakePqrsdfCommandValidator` in `backend/src/Application/Features/Pqrsdf/UseCases/MakePqrsdf/`
-- [ ] T031 [US1] Expose `POST /api/v1/pqrsdf` in `backend/src/Api/Controllers/V1/PqrsdfController.cs`
-- [ ] T032 [P] [US1] Create accessible visual `CharacterCounter` component in `frontend/src/app/pqrsdf/components/CharacterCounter.tsx`
-- [ ] T033 [P] [US1] Implement `usePqrsdfForm` hook with Zod schema validation and anonymous toggle in `frontend/src/app/pqrsdf/hooks/usePqrsdfForm.ts`
-- [ ] T034 [US1] Implement public accessible `PqrsdfForm` component with plain text fields, character counters, conditional anonymous fields, and anti-double-click lock in `frontend/src/app/pqrsdf/components/PqrsdfForm.tsx`
+- [X] T027 [P] [US1] Create `PqrsdfTicket` aggregate root enforcing domain invariants and anonymous rules in `backend/src/Domain/Entities/PqrsdfTicket.cs`
+- [X] T028 [P] [US1] Create `PqrsdfTicketConfiguration` for EF Core in `backend/src/Infrastructure/Persistence/Configurations/PqrsdfTicketConfiguration.cs`
+- [X] T029 [P] [US1] Create `IPqrsdfTicketRepository` and `PqrsdfTicketRepository` in `backend/src/Domain/Repositories/IPqrsdfTicketRepository.cs` and `backend/src/Infrastructure/Persistence/Repositories/PqrsdfTicketRepository.cs`
+- [X] T030 [US1] Implement `MakePqrsdfCommand`, `MakePqrsdfCommandHandler`, `MakePqrsdfRequest`, `MakePqrsdfResponse`, and `MakePqrsdfCommandValidator` in `backend/src/Application/Features/Pqrsdf/UseCases/MakePqrsdf/`
+- [X] T031 [US1] Expose `POST /api/v1/pqrsdf` in `backend/src/Api/Controllers/V1/PqrsdfController.cs`
+- [X] T032 [P] [US1] Create accessible visual `CharacterCounter` component in `frontend/src/app/pqrsdf/components/CharacterCounter.tsx`
+- [X] T033 [P] [US1] Implement `usePqrsdfForm` hook with Zod schema validation and anonymous toggle in `frontend/src/app/pqrsdf/hooks/usePqrsdfForm.ts`
+- [X] T034 [US1] Implement public accessible `PqrsdfForm` component with plain text fields, character counters, conditional anonymous fields, and anti-double-click lock in `frontend/src/app/pqrsdf/components/PqrsdfForm.tsx`
 
 **Checkpoint**: Core public filing workflow functional and verifiable end-to-end.
 
@@ -110,11 +110,11 @@
 **Independent Test**: Can be tested by submitting a ticket and verifying the UI switches to confirmation mode with radicado, due date, and copy-to-clipboard action without re-submitting on refresh.
 
 ### Tests for User Story 3
-- [ ] T035 [P] [US3] Component tests for `ConfirmationReceipt` in `frontend/tests/pqrsdf/ConfirmationReceipt.test.tsx`
+- [X] T035 [P] [US3] Component tests for `ConfirmationReceipt` in `frontend/tests/pqrsdf/ConfirmationReceipt.test.tsx`
 
 ### Implementation for User Story 3
-- [ ] T036 [P] [US3] Implement `ConfirmationReceipt` component with clipboard copy action and return button in `frontend/src/app/pqrsdf/components/ConfirmationReceipt.tsx`
-- [ ] T037 [US3] Integrate `PqrsdfForm` and `ConfirmationReceipt` in `frontend/src/app/pqrsdf/page.tsx`
+- [X] T036 [P] [US3] Implement `ConfirmationReceipt` component with clipboard copy action and return button in `frontend/src/app/pqrsdf/components/ConfirmationReceipt.tsx`
+- [X] T037 [US3] Integrate `PqrsdfForm` and `ConfirmationReceipt` in `frontend/src/app/pqrsdf/page.tsx`
 
 **Checkpoint**: End-to-end citizen journey from public form to receipt screen complete.
 
@@ -124,10 +124,10 @@
 
 **Purpose**: Verification, OpenAPI contracts synchronization, and quality gates
 
-- [ ] T038 [P] Regenerate OpenAPI TypeScript types in `frontend/src/shared/api/generated/schema.d.ts`
-- [ ] T039 [P] Add architectural tests in `backend/tests/Architecture.Tests/PqrsdfArchitectureTests.cs` verifying CQRS use case co-location and Clean Architecture boundaries
-- [ ] T040 Write and execute concurrency test verifying 50 simultaneous submissions produce 0 duplicate radicados in `backend/tests/Application.UnitTests/Domain/RadicadoConcurrencyTests.cs`
-- [ ] T041 Execute end-to-end verification scenarios per `specs/003-pqrsdf-make-ticket/quickstart.md`
+- [X] T038 [P] Regenerate OpenAPI TypeScript types in `frontend/src/shared/api/generated/schema.d.ts`
+- [X] T039 [P] Add architectural tests in `backend/tests/Architecture.Tests/PqrsdfArchitectureTests.cs` verifying CQRS use case co-location and Clean Architecture boundaries
+- [X] T040 Write and execute concurrency test verifying 50 simultaneous submissions produce 0 duplicate radicados in `backend/tests/Application.UnitTests/Domain/RadicadoConcurrencyTests.cs`
+- [X] T041 Execute end-to-end verification scenarios per `specs/003-pqrsdf-make-ticket/quickstart.md`
 
 ---
 

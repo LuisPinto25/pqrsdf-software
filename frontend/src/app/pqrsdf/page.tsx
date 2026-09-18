@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
+import { PqrsdfContainer } from './components/PqrsdfContainer';
 
 export default async function PqrsdfPage() {
   const t = await getTranslations('Pqrsdf');
@@ -15,13 +16,12 @@ export default async function PqrsdfPage() {
         <span className="text-slate-800 font-medium">{t('title')}</span>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm space-y-4">
-        <h1 className="text-2xl font-bold text-slate-900">{t('title')}</h1>
-        <p className="text-slate-600">{t('description')}</p>
-        <div className="p-4 bg-institutional-50 border border-institutional-200 rounded-lg text-institutional-900 text-sm">
-          {t('placeholder')}
-        </div>
+      <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">{t('title')}</h1>
+        <p className="text-slate-600 text-sm sm:text-base">{t('description')}</p>
       </div>
+
+      <PqrsdfContainer />
     </div>
   );
 }

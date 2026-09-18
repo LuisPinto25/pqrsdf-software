@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Pqrsdf.Domain.Entities;
+using Pqrsdf.Infrastructure.Persistence.Entities;
 
 namespace Pqrsdf.Infrastructure.Persistence;
 
@@ -12,6 +14,10 @@ public class PqrsdfDbContext : DbContext
         : base(options)
     {
     }
+
+    public DbSet<DestinationArea> DestinationAreas => Set<DestinationArea>();
+    public DbSet<RadicadoSequence> RadicadoSequences => Set<RadicadoSequence>();
+    public DbSet<PqrsdfTicket> PqrsdfTickets => Set<PqrsdfTicket>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
