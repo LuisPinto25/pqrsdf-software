@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LoginContract",
+  "description": "API contract for staff credential authentication and JWT issuance (POST /api/v1/auth/login)",
+  "endpoint": {
+    "method": "POST",
+    "path": "/api/v1/auth/login",
+    "aliases": ["/api/auth/login"],
+    "summary": "Authenticates internal staff (Funcionario/Administrador) using BCrypt and issues a signed JWT",
+    "authenticated": false,
+    "rateLimit": "5 requests per minute per IP address"
+  },
+  "request": {
+    "content": {
+      "application/json": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "example": "funcionario@pqrsdf.gov.co",
+            "description": "Institutional email of the staff member"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "example": "Funcionario123*",
+            "description": "Staff member password"
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "Authentication successful; returns signed JWT and user profile",
+      "content": {
+        "application/json": {
+          "type": "object",
+          "required": [
+            "accessToken",
+            "tokenType",
+            "expiresIn",
+            "user"
+          ],
+          "properties": {
+            "accessToken": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+              "description": "Signed JWT token containing sub, email, name, and role claims"
+            },
+            "tokenType": {
+              "type": "string",
+              "enum": ["Bearer"],
+              "example": "Bearer",
+              "description": "Authorization token scheme"
+            },
+            "expiresIn": {
+              "type": "integer",
+              "example": 28800,
+              "description": "Token lifespan in seconds (8 hours)"
+            },
+            "user": {
+              "type": "object",
+              "required": [
+                "id",
+                "email",
+                "fullName",
+                "role"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "e49d34f1-9bd7-40a5-926b-9548be740f02"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "example": "funcionario@pqrsdf.gov.co"
+                },
+                "fullName": {
+                  "type": "string",
+                  "example": "Funcionario de PQRSDF"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": ["Funcionario", "Administrador"],
+                  "example": "Funcionario"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "description": "Invalid input formatting or empty required fields",
+      "content": {
+        "application/problem+json": {
+          "type": "object",
+          "required": ["type", "title", "status"],
+          "properties": {
+            "type": { "type": "string", "example": "https://tools.ietf.org/html/rfc9110#section-15.5.1" },
+            "title": { "type": "string", "example": "One or more validation errors occurred." },
+            "status": { "type": "integer", "example": 400 },
+            "errors": { "type": "object" }
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Invalid credentials or account inactive",
+      "content": {
+        "application/problem+json": {
+          "type": "object",
+          "required": ["type", "title", "status", "detail"],
+          "properties": {
+            "type": { "type": "string", "example": "https://tools.ietf.org/html/rfc9110#section-15.5.2" },
+            "title": { "type": "string", "example": "No autorizado" },
+            "status": { "type": "integer", "example": 401 },
+            "detail": { "type": "string", "example": "Credenciales inválidas. Por favor verifique su correo y contraseña." }
+          }
+        }
+      }
+    },
+    "429": {
+      "description": "Rate limit exceeded (more than 5 attempts per minute per IP)",
+      "content": {
+        "application/problem+json": {
+          "type": "object",
+          "required": ["type", "title", "status", "detail"],
+          "properties": {
+            "type": { "type": "string", "example": "https://tools.ietf.org/html/rfc6585#section-4" },
+            "title": { "type": "string", "example": "Demasiados intentos de acceso" },
+            "status": { "type": "integer", "example": 429 },
+            "detail": { "type": "string", "example": "Demasiados intentos de inicio de sesión fallidos. Por favor intente nuevamente en un minuto." }
+          }
+        }
+      }
+    }
+  }
+}
