@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SystemStatusResponseEnvelope",
+  "description": "Envelope structure returned by GET /api/v1/system/status implementing the Result Pattern",
+  "type": "object",
+  "properties": {
+    "isSuccess": {
+      "type": "boolean",
+      "example": true
+    },
+    "value": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["Healthy", "Degraded", "Unhealthy"],
+          "example": "Healthy"
+        },
+        "service": {
+          "type": "string",
+          "example": "PQRSDF Backend API"
+        },
+        "version": {
+          "type": "string",
+          "example": "1.0.0"
+        },
+        "environment": {
+          "type": "string",
+          "example": "Development"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "databaseConnected": {
+          "type": "boolean",
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "example": "El sistema se encuentra operativo y conectado a la base de datos SQL Server."
+        }
+      },
+      "required": ["status", "service", "version", "environment", "timestamp", "databaseConnected", "message"]
+    },
+    "error": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "None"
+        },
+        "message": {
+          "type": "string",
+          "example": ""
+        },
+        "type": {
+          "type": "integer",
+          "example": 0
+        }
+      }
+    }
+  },
+  "required": ["isSuccess"]
+}
