@@ -1,17 +1,18 @@
 <!--
 Sync Impact Report:
-- Version change: 1.1.0 -> 1.2.0
+- Version change: 1.2.0 -> 1.3.0
 - List of modified principles / sections:
-  - II. Backend Clean Architecture e Inversión de Dependencias: Se formaliza la convención estructural de carpetas para casos de uso por feature, co-ubicando el Command/Query, el Handler y sus DTOs exclusivos.
-  - Directrices Técnicas y Restricciones de Implementación: Especificación mandatoria del layout `Application/Features/[FeatureName]/UseCases/[UseCaseName]/` y DTOs reutilizables en `Application/Shared/Dtos/`.
+  - IV. Frontend Screaming Architecture y Next.js App Router Feature-Driven: Se alinea la Screaming Architecture con el file-system routing del App Router de Next.js, estableciendo que las carpetas de los dominios del sistema (pqrsdf, auth, dashboard, etc.) cuelgan directamente dentro de `app/` para aprovechar las bondades nativas del framework (layouts anidados, error boundaries, loading states co-ubicados).
+  - Directrices Técnicas y Restricciones de Implementación: Especificación del layout `src/app/[feature]/` para módulos de negocio y `src/shared/` para utilidades y componentes transversales.
+  - Flujo de Desarrollo, Revisión y Criterios de Calidad: Verificación de co-ubicación en `app/` por dominio en revisiones arquitectónicas.
 - Added sections:
-  - Ninguna (refinamiento y expansión de directrices existentes).
+  - Ninguna (enmienda y refinamiento de principio existente).
 - Removed sections:
   - Ninguna.
 - Templates requiring updates:
-  - .specify/templates/plan-template.md (✅ alineado con la estructura de carpetas UseCases/[UseCaseName] y Shared/Dtos)
-  - .specify/templates/spec-template.md (✅ alineado)
-  - .specify/templates/tasks-template.md (✅ alineado con la creación modular de carpetas de casos de uso)
+  - .specify/templates/plan-template.md (✅ actualizado para reflejar la estructura `src/app/[feature]/`)
+  - .specify/templates/spec-template.md (✅ verificado y compatible)
+  - .specify/templates/tasks-template.md (✅ verificado y compatible)
 - Follow-up TODOs:
   - Ninguno.
 -->
@@ -25,7 +26,7 @@ Esta constitución es la fuente de verdad inmutable para la generación, diseño
 ### I. Stack Tecnológico y Arquitectura Global Cliente-Servidor
 - **Arquitectura**: El sistema opera bajo un modelo Cliente-Servidor estrictamente desacoplado, comunicándose mediante contratos API RESTful con formato JSON.
 - **Backend**: Implementado obligatoriamente en **ASP.NET Core versión 10**.
-- **Frontend**: Implementado obligatoriamente en **Next.js** (App Router o arquitectura reactiva moderna con TypeScript).
+- **Frontend**: Implementado obligatoriamente en **Next.js** (App Router con TypeScript en modo estricto).
 - **Independencia Operativa**: Frontend y Backend deben poder compilar, probarse y desplegarse de manera independiente respetando contratos de datos explícitos.
 
 ### II. Backend Clean Architecture e Inversión de Dependencias
@@ -50,10 +51,11 @@ Esta constitución es la fuente de verdad inmutable para la generación, diseño
 - **Obsesión por Primitivos Prohibida**: El dominio debe modelar conceptos a través de **Value Objects** inmutables (ej. `RadicadoNumber`, `Email`, `PqrsdfType`, `CitizenIdentification`, `PqrsdfDescription`). Los tipos primitivos (`string`, `int`, `Guid`) no deben utilizarse directamente para representar lógica de dominio sin envoltorio validado.
 - **Invariantes Garantizados**: Ninguna entidad o Value Object podrá instanciarse en un estado inválido.
 
-### IV. Frontend Screaming Architecture y Feature-Driven Design
-- **Screaming Architecture**: La estructura del proyecto frontend debe "gritar" el dominio del negocio de PQRSDF y no la tecnología empleada.
-- **Organización Feature-Driven**: Queda prohibido agrupar componentes exclusivamente en carpetas técnicas globales (`/components`, `/hooks`, `/pages` genéricas). El código debe organizarse en módulos de negocio claros (ej. `/features/pqrsdf/create`, `/features/pqrsdf/tracking`, `/features/pqrsdf/dashboard`).
-- **Módulos Autónomos**: Cada módulo de feature debe encapsular sus propios componentes visuales, lógica de presentación, hooks, contratos y llamadas a la API correspondientes.
+### IV. Frontend Screaming Architecture y Next.js App Router Feature-Driven
+- **Screaming Architecture Integrada con File-System Routing**: La estructura del proyecto frontend debe "gritar" el dominio del negocio de PQRSDF y alinearse de forma natural con el App Router de Next.js. Las carpetas de dominio del sistema cuelgan directamente dentro de `app/` (ej. `app/pqrsdf/`, `app/auth/`, `app/dashboard/` o route groups asociados), haciendo que la estructura de directorios defina simultáneamente las rutas de la aplicación y exprese con total claridad el dominio del negocio.
+- **Prohibición de Carpetas Técnicas Genéricas en la Raíz**: Queda terminantemente prohibido organizar el código agrupándolo exclusivamente en carpetas técnicas globales (`/components`, `/hooks`, `/pages` sueltas o genéricas). Toda vista, componente específico, hook particular o lógica de presentación de una feature debe co-ubicarse dentro de la carpeta correspondiente en `app/[dominio]/...`.
+- **Módulos Autónomos y Aprovechamiento de Next.js**: Cada carpeta de feature bajo `app/` opera como un módulo de negocio autónomo que aprovecha las capacidades nativas de Next.js App Router (layouts anidados `layout.tsx`, pantallas de carga `loading.tsx`, fronteras de error `error.tsx`, Server Actions y componentes clientes/servidor co-ubicados).
+- **Recursos Compartidos**: Todo componente verdaderamente transversal (diseño base, utilidades globales, contratos de tipos o cliente API global) debe residir en una carpeta `shared/` (ej. `src/shared/`), manteniéndose estrictamente diferenciada de las carpetas de feature de negocio.
 
 ### V. Gobernanza Unificada de Errores y Excepciones
 - **Patrón Result Obligatorio**:
@@ -98,14 +100,15 @@ Esta constitución es la fuente de verdad inmutable para la generación, diseño
 - **Ubicación de DTOs Compartidos**:
   - Todo DTO que sea reutilizable o compartido entre múltiples casos de uso o features debe residir obligatoriamente en `Application/Shared/Dtos/`.
 - **Persistencia**: Única base de datos relacional para lecturas y escrituras, gestionada mediante Entity Framework Core u orquestador de datos equivalente detrás de abstracciones de repositorio.
-- **Frontend Framework**: Next.js (TypeScript estricto `strict: true`, ESLint, Tailwind CSS recomendado para componentes de features).
+- **Frontend Framework y Organización**: Next.js 15+ (App Router con TypeScript estricto `strict: true`, ESLint, Tailwind CSS). La estructura de carpetas de negocio se implementa bajo `src/app/` (ej. `src/app/pqrsdf/`, `src/app/auth/`, `src/app/dashboard/`), co-ubicando componentes, hooks y sub-rutas por dominio, con recursos transversales en `src/shared/`.
 - **Comunicación e Integración**: Contratos basados en especificación OpenAPI / Swagger generada automáticamente desde ASP.NET Core y consumida fielmente en Next.js.
 - **Seguridad**: Sanitización obligatoria en fronteras de entrada (API y UI) para prevención de XSS, CSRF e inyecciones.
 
 ## Flujo de Desarrollo, Revisión y Criterios de Calidad
 
 1. **Revisión de Arquitectura en Cada Modificación**:
-   - Todo caso de uso implementado o refactorizado debe respetar la ruta `Application/Features/[FeatureName]/UseCases/[UseCaseName]/` con sus artefactos co-ubicados, verificando que los DTOs compartidos estén debidamente centralizados en `Application/Shared/Dtos/`.
+   - Todo caso de uso backend implementado o refactorizado debe respetar la ruta `Application/Features/[FeatureName]/UseCases/[UseCaseName]/` con sus artefactos co-ubicados, verificando que los DTOs compartidos estén debidamente centralizados en `Application/Shared/Dtos/`.
+   - En el frontend, se validará que las funcionalidades se organicen bajo sus carpetas de dominio en `app/` aprovechando el file routing de Next.js, sin dispersar componentes de feature en carpetas técnicas globales.
    - Se validará la ausencia total de bases duales o brokers de mensajería para CQRS.
 2. **Defensa contra Regresiones**:
    - Cada Command Handler y Query Handler debe contar con pruebas unitarias aisladas verificando tanto caminos felices como flujos con `Result<T, Error>`.
@@ -122,4 +125,4 @@ Esta constitución es la fuente de verdad inmutable para la generación, diseño
   - **PATCH (1.0.X)**: Correcciones tipográficas, refinamientos de redacción o aclaraciones menores.
 - **Auditoría Automatizada y Asistida**: El asistente de desarrollo y los revisores humanos DEBEN comprobar y garantizar el cumplimiento estricto de estos mandatos en cada plan, especificación, tarea e implementación generada.
 
-**Version**: 1.2.0 | **Ratified**: 2026-09-17 | **Last Amended**: 2026-09-17
+**Version**: 1.3.0 | **Ratified**: 2026-09-17 | **Last Amended**: 2026-09-18
