@@ -1,0 +1,6 @@
+@Pqrsdf.Api_HostAddress = http://localhost:5023
+
+GET {{Pqrsdf.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
