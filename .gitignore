@@ -1,0 +1,33 @@
+## .NET / C#
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+packages/
+*.nupkg
+TestResults/
+.vs/
+
+## Node.js / Frontend (Future)
+node_modules/
+dist/
+build/
+.next/
+out/
+*.log
+.env
+.env.local
+.env.*.local
+
+## Universal / IDEs
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json

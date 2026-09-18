@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Api/">
+    <Project Path="src/Api/Pqrsdf.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Application/">
+    <Project Path="src/Application/Pqrsdf.Application.csproj" />
+  </Folder>
+  <Folder Name="/src/Domain/">
+    <Project Path="src/Domain/Pqrsdf.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/Infrastructure/">
+    <Project Path="src/Infrastructure/Pqrsdf.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/Application.UnitTests/">
+    <Project Path="tests/Application.UnitTests/Pqrsdf.Application.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/Architecture.Tests/">
+    <Project Path="tests/Architecture.Tests/Pqrsdf.Architecture.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tests/Domain.UnitTests/">
+    <Project Path="tests/Domain.UnitTests/Pqrsdf.Domain.UnitTests.csproj" />
+  </Folder>
+</Solution>
