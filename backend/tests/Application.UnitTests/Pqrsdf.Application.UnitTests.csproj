@@ -22,6 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Api\Pqrsdf.Api.csproj" />
     <ProjectReference Include="..\..\src\Application\Pqrsdf.Application.csproj" />
     <ProjectReference Include="..\..\src\Domain\Pqrsdf.Domain.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure\Pqrsdf.Infrastructure.csproj" />

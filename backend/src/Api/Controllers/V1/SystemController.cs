@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pqrsdf.Api.Shared.Controllers;
 using Pqrsdf.Application.Features.System.UseCases.GetSystemStatus;
@@ -8,6 +9,7 @@ namespace Pqrsdf.Api.Controllers.V1;
 /// <summary>
 /// Controller providing operational and system status endpoints.
 /// </summary>
+[AllowAnonymous]
 public class SystemController : ApiControllerBase
 {
     /// <summary>
