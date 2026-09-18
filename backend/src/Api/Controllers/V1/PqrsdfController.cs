@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Pqrsdf.Api.Shared.Controllers;
 using Pqrsdf.Application.Features.Pqrsdf.UseCases.GetActiveDestinationAreas;
+using Pqrsdf.Application.Features.Pqrsdf.UseCases.GetTicketByRadicado;
 using Pqrsdf.Application.Features.Pqrsdf.UseCases.MakePqrsdf;
 using Pqrsdf.Domain.Shared.Results;
 
@@ -40,6 +41,24 @@ public class PqrsdfController : ApiControllerBase
             return StatusCode(StatusCodes.Status201Created, result);
         }
 
+        return HandleResult(result);
+    }
+
+    /// <summary>
+    /// Retrieves public operational status, timeline, and response of a PQRSDF ticket by radicado number.
+    /// Excludes citizen applicant personal data. Protected by rate limiting (30 req/min/IP).
+    /// </summary>
+    [HttpGet("{radicado}")]
+    [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("PublicTrackingPolicy")]
+    [ProducesResponseType(typeof(Result<PublicTicketStatusDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
+    public async Task<IActionResult> GetTicketByRadicado(
+        [FromRoute] string radicado,
+        CancellationToken cancellationToken)
+    {
+        var result = await Sender.Send(new GetTicketByRadicadoQuery(radicado), cancellationToken);
         return HandleResult(result);
     }
 }

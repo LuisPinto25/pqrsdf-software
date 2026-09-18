@@ -11,6 +11,7 @@
   "Navigation": {
     "home": "Inicio",
     "pqrsdf": "Radicar PQRSDF",
+    "search": "Consultar Radicado",
     "auth": "Autenticación",
     "dashboard": "Panel de Control"
   },
@@ -73,6 +74,7 @@
       "businessDaysInfo": "Calculada en {days} días hábiles conforme a la normativa colombiana (excluyendo fines de semana y festivos de Ley).",
       "createdAtLabel": "Fecha y Hora de Recepción",
       "importantNotice": "Conserve su número de radicado. Con este código podrá realizar seguimiento al estado y respuesta de su requerimiento.",
+      "trackTicket": "Consultar estado de solicitud",
       "fileAnother": "Radicar otra solicitud",
       "returnHome": "Volver al inicio"
     },
@@ -115,5 +117,71 @@
     "title": "Ha ocurrido un error inesperado",
     "description": "Se ha presentado un fallo temporal al procesar su solicitud.",
     "retry": "Intentar nuevamente"
+  },
+  "PqrsdfSearch": {
+    "title": "Consulta y Seguimiento de PQRSDF",
+    "description": "Consulte el estado actualizado, línea de tiempo y respuesta de su solicitud ingresando su número de radicado.",
+    "searchBox": {
+      "label": "Número de Radicado",
+      "placeholder": "AAAA-NNNNNNNN (Ej. 2026-00000001)",
+      "button": "Consultar",
+      "searching": "Consultando...",
+      "clear": "Limpiar",
+      "hint": "Ingrese el código de 13 caracteres asignado al momento de su radicación."
+    },
+    "status": {
+      "title": "Información del Trámite",
+      "radicadoLabel": "Radicado:",
+      "typeLabel": "Tipo de Trámite:",
+      "areaLabel": "Área Responsable:",
+      "filingDateLabel": "Fecha de Radicación:",
+      "dueDateLabel": "Fecha Máxima Legal:",
+      "remainingDaysLabel": "Días Hábiles Restantes:",
+      "remainingDaysCount": "{count} días hábiles",
+      "dueToday": "Vence hoy",
+      "overdueBadge": "Vencida",
+      "overdueLabel": "Vencida hace {days} días hábiles",
+      "closedNotice": "Trámite finalizado",
+      "copyRadicado": "Copiar radicado",
+      "copied": "¡Copiado!"
+    },
+    "statuses": {
+      "Registered": "Registrado",
+      "Assigned": "Asignado",
+      "InReview": "En trámite",
+      "Answered": "Respondido",
+      "Closed": "Cerrado"
+    },
+    "timeline": {
+      "title": "Línea de Tiempo del Trámite",
+      "registered": "Radicado",
+      "assigned": "Asignado",
+      "inReview": "En trámite",
+      "answered": "Respuesta emitida",
+      "closed": "Cerrado",
+      "completed": "Completado",
+      "current": "Estado actual",
+      "pending": "Pendiente"
+    },
+    "detail": {
+      "title": "Detalle de la Solicitud Radicada",
+      "subject": "Asunto",
+      "description": "Descripción Original"
+    },
+    "resolution": {
+      "title": "Respuesta Oficial Institucional",
+      "dateLabel": "Fecha de Respuesta:",
+      "completedBadge": "Caso Finalizado",
+      "pendingResponse": "Su solicitud se encuentra en trámite. La respuesta institucional será visible en esta sección una vez sea emitida."
+    },
+    "errors": {
+      "radicadoRequired": "Ingrese el número de radicado a consultar.",
+      "radicadoInvalid": "El número de radicado debe tener el formato AAAA-NNNNNNNN (ej. 2026-00000001).",
+      "notFoundTitle": "Solicitud no encontrada",
+      "notFoundMessage": "No se encontró ninguna solicitud con el radicado ingresado. Por favor verifique el número e intente de nuevo.",
+      "rateLimitTitle": "Límite de consultas excedido",
+      "rateLimitMessage": "Ha superado el límite de consultas permitidas por minuto. Por favor espere un momento antes de intentar de nuevo.",
+      "generalError": "Ocurrió un error al consultar el radicado. Por favor intente nuevamente."
+    }
   }
 }

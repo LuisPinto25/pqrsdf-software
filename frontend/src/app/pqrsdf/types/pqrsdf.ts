@@ -37,3 +37,32 @@ export interface MakePqrsdfResponse {
   destinationAreaName?: string;
   isAnonymous?: boolean;
 }
+
+export interface TicketTimelineMilestoneDto {
+  status: string;
+  title: string;
+  date: string | null;
+  isCompleted: boolean;
+  isCurrent: boolean;
+}
+
+export interface TicketResolutionDto {
+  responseText: string;
+  responseDate: string;
+}
+
+export interface PublicTicketStatusDto {
+  radicadoNumber: string;
+  requestType: string;
+  destinationAreaName: string;
+  subject: string;
+  description: string;
+  status: string;
+  filingDate: string;
+  dueDate: string;
+  remainingBusinessDays: number | null;
+  isOverdue: boolean;
+  overdueBusinessDays: number | null;
+  timeline: TicketTimelineMilestoneDto[];
+  resolution?: TicketResolutionDto | null;
+}

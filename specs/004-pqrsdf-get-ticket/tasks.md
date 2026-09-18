@@ -15,8 +15,8 @@
 
 **Purpose**: Project initialization, rate limiter configuration, and message localization
 
-- [ ] T001 Add Spanish message keys for ticket consultation, timeline stages, status badges, overdue alerts, and final resolution in `frontend/messages/es.json`
-- [ ] T002 [P] Configure IP-based rate limiting (30 req/min) with `FixedWindowLimiter` and 429 response handling in `backend/src/Api/Program.cs`
+- [X] T001 Add Spanish message keys for ticket consultation, timeline stages, status badges, overdue alerts, and final resolution in `frontend/messages/es.json`
+- [X] T002 [P] Configure IP-based rate limiting (30 req/min) with `FixedWindowLimiter` and 429 response handling in `backend/src/Api/Program.cs`
 
 ---
 
@@ -24,10 +24,10 @@
 
 **Purpose**: Core domain evolution, repository mappings, and SLA business days calculation that block user story implementation
 
-- [ ] T003 Evolve `PqrsdfTicket` aggregate root with `ResponseText`, `ResponseDateUtc`, and domain method `CloseWithResponse` in `backend/src/Domain/Entities/PqrsdfTicket.cs`
-- [ ] T004 [P] Update EF Core configuration for nullable `ResponseText` and `ResponseDateUtc` mappings in `backend/src/Infrastructure/Persistence/Configurations/PqrsdfTicketConfiguration.cs`
-- [ ] T005 [P] Extend `DueDateCalculator` with `CalculateRemainingBusinessDays` and `CalculateOverdueBusinessDays` in `backend/src/Domain/Services/DueDateCalculator.cs`
-- [ ] T006 [P] Unit tests for remaining and overdue business day calculations across calendar dates and holidays in `backend/tests/Application.UnitTests/Domain/DueDateCalculatorRemainingDaysTests.cs`
+- [X] T003 Evolve `PqrsdfTicket` aggregate root with `ResponseText`, `ResponseDateUtc`, and domain method `CloseWithResponse` in `backend/src/Domain/Entities/PqrsdfTicket.cs`
+- [X] T004 [P] Update EF Core configuration for nullable `ResponseText` and `ResponseDateUtc` mappings in `backend/src/Infrastructure/Persistence/Configurations/PqrsdfTicketConfiguration.cs`
+- [X] T005 [P] Extend `DueDateCalculator` with `CalculateRemainingBusinessDays` and `CalculateOverdueBusinessDays` in `backend/src/Domain/Services/DueDateCalculator.cs`
+- [X] T006 [P] Unit tests for remaining and overdue business day calculations across calendar dates and holidays in `backend/tests/Application.UnitTests/Domain/DueDateCalculatorRemainingDaysTests.cs`
 
 **Checkpoint**: Aggregate root evolved and business day SLA calculation verified.
 
@@ -40,20 +40,20 @@
 **Independent Test**: Can be tested by navigating to `/pqrsdf/search`, entering an existing radicado number (e.g., `2026-00000001`), and verifying that status, dates, subject, description, and the progress timeline render accurately in < 2 seconds.
 
 ### Tests for User Story 1
-- [ ] T007 [P] [US1] Unit tests for `GetTicketByRadicadoQueryHandler` (valid ticket, non-existent ticket 404, malformed radicado 400) in `backend/tests/Application.UnitTests/Features/Pqrsdf/GetTicketByRadicadoQueryHandlerTests.cs`
+- [X] T007 [P] [US1] Unit tests for `GetTicketByRadicadoQueryHandler` (valid ticket, non-existent ticket 404, malformed radicado 400) in `backend/tests/Application.UnitTests/Features/Pqrsdf/GetTicketByRadicadoQueryHandlerTests.cs`
 
 ### Implementation for User Story 1
-- [ ] T008 [P] [US1] Create `PublicTicketStatusDto`, `TicketTimelineMilestoneDto`, and `TicketResolutionDto` in `backend/src/Application/Features/Pqrsdf/UseCases/GetTicketByRadicado/PublicTicketStatusDto.cs`
-- [ ] T009 [P] [US1] Create `GetTicketByRadicadoQuery` record in `backend/src/Application/Features/Pqrsdf/UseCases/GetTicketByRadicado/GetTicketByRadicadoQuery.cs`
-- [ ] T010 [US1] Implement `GetTicketByRadicadoQueryHandler` orchestrating repository retrieval, area resolution, milestone timeline generation, and DTO projection in `backend/src/Application/Features/Pqrsdf/UseCases/GetTicketByRadicado/GetTicketByRadicadoQueryHandler.cs`
-- [ ] T011 [US1] Expose `GET /api/v1/pqrsdf/{radicado}` with `[EnableRateLimiting("PublicTrackingPolicy")]` in `backend/src/Api/Controllers/V1/PqrsdfController.cs`
-- [ ] T012 [P] [US1] Add `getTicketByRadicado` method in `frontend/src/shared/api/client.ts`
-- [ ] T013 [P] [US1] Create `TicketSearchBox` component with regex validation (`^\d{4}-\d{8}$`), auto-trim, and clear button in `frontend/src/app/pqrsdf/search/components/TicketSearchBox.tsx`
-- [ ] T014 [P] [US1] Create `TicketStatusHeader` component rendering radicado, category, destination area, and status badge in `frontend/src/app/pqrsdf/search/components/TicketStatusHeader.tsx`
-- [ ] T015 [P] [US1] Create `TicketDetailCard` component displaying original plain text Subject and Description in `frontend/src/app/pqrsdf/search/components/TicketDetailCard.tsx`
-- [ ] T016 [P] [US1] Create `TicketTimeline` component rendering visual milestone stepper (*Registrado*, *Asignado*, *En trámite*, *Respondido*, *Cerrado*) with localized dates in `frontend/src/app/pqrsdf/search/components/TicketTimeline.tsx`
-- [ ] T017 [US1] Implement `useTicketSearch` hook managing search state, API query execution, error messaging, and URL parameter sync in `frontend/src/app/pqrsdf/search/hooks/useTicketSearch.ts`
-- [ ] T018 [US1] Implement public consultation page at `/pqrsdf/search` orchestrating search box, status header, details, and timeline in `frontend/src/app/pqrsdf/search/page.tsx`
+- [X] T008 [P] [US1] Create `PublicTicketStatusDto`, `TicketTimelineMilestoneDto`, and `TicketResolutionDto` in `backend/src/Application/Features/Pqrsdf/UseCases/GetTicketByRadicado/PublicTicketStatusDto.cs`
+- [X] T009 [P] [US1] Create `GetTicketByRadicadoQuery` record in `backend/src/Application/Features/Pqrsdf/UseCases/GetTicketByRadicado/GetTicketByRadicadoQuery.cs`
+- [X] T010 [US1] Implement `GetTicketByRadicadoQueryHandler` orchestrating repository retrieval, area resolution, milestone timeline generation, and DTO projection in `backend/src/Application/Features/Pqrsdf/UseCases/GetTicketByRadicado/GetTicketByRadicadoQueryHandler.cs`
+- [X] T011 [US1] Expose `GET /api/v1/pqrsdf/{radicado}` with `[EnableRateLimiting("PublicTrackingPolicy")]` in `backend/src/Api/Controllers/V1/PqrsdfController.cs`
+- [X] T012 [P] [US1] Add `getTicketByRadicado` method in `frontend/src/shared/api/client.ts`
+- [X] T013 [P] [US1] Create `TicketSearchBox` component with regex validation (`^\d{4}-\d{8}$`), auto-trim, and clear button in `frontend/src/app/pqrsdf/search/components/TicketSearchBox.tsx`
+- [X] T014 [P] [US1] Create `TicketStatusHeader` component rendering radicado, category, destination area, and status badge in `frontend/src/app/pqrsdf/search/components/TicketStatusHeader.tsx`
+- [X] T015 [P] [US1] Create `TicketDetailCard` component displaying original plain text Subject and Description in `frontend/src/app/pqrsdf/search/components/TicketDetailCard.tsx`
+- [X] T016 [P] [US1] Create `TicketTimeline` component rendering visual milestone stepper (*Registrado*, *Asignado*, *En trámite*, *Respondido*, *Cerrado*) with localized dates in `frontend/src/app/pqrsdf/search/components/TicketTimeline.tsx`
+- [X] T017 [US1] Implement `useTicketSearch` hook managing search state, API query execution, error messaging, and URL parameter sync in `frontend/src/app/pqrsdf/search/hooks/useTicketSearch.ts`
+- [X] T018 [US1] Implement public consultation page at `/pqrsdf/search` orchestrating search box, status header, details, and timeline in `frontend/src/app/pqrsdf/search/page.tsx`
 
 **Checkpoint**: Core public consultation and timeline visualization functional.
 
@@ -66,11 +66,11 @@
 **Independent Test**: Can be tested by querying a radicado for a closed or answered ticket and asserting that the official response text and resolution timestamp are rendered prominently.
 
 ### Tests for User Story 2
-- [ ] T019 [P] [US2] Unit test verifying `GetTicketByRadicadoQueryHandler` maps `Resolution` object when ticket is closed or answered in `backend/tests/Application.UnitTests/Features/Pqrsdf/GetTicketByRadicadoResolutionTests.cs`
+- [X] T019 [P] [US2] Unit test verifying `GetTicketByRadicadoQueryHandler` maps `Resolution` object when ticket is closed or answered in `backend/tests/Application.UnitTests/Features/Pqrsdf/GetTicketByRadicadoResolutionTests.cs`
 
 ### Implementation for User Story 2
-- [ ] T020 [P] [US2] Create `TicketResolutionCard` component displaying official response text, resolution date, and closure icon in `frontend/src/app/pqrsdf/search/components/TicketResolutionCard.tsx`
-- [ ] T021 [US2] Conditionally render `TicketResolutionCard` in `frontend/src/app/pqrsdf/search/page.tsx` when `ticket.resolution` is present
+- [X] T020 [P] [US2] Create `TicketResolutionCard` component displaying official response text, resolution date, and closure icon in `frontend/src/app/pqrsdf/search/components/TicketResolutionCard.tsx`
+- [X] T021 [US2] Conditionally render `TicketResolutionCard` in `frontend/src/app/pqrsdf/search/page.tsx` when `ticket.resolution` is present
 
 **Checkpoint**: Final resolution text displayed for closed tickets.
 
@@ -83,8 +83,8 @@
 **Independent Test**: Can be tested by querying both identified and anonymous tickets and verifying that the serialized JSON payload contains strictly 0 applicant contact fields.
 
 ### Tests for User Story 3
-- [ ] T022 [P] [US3] Unit test asserting reflection scan on `PublicTicketStatusDto` contains 0 properties related to applicant name, document, email, or phone in `backend/tests/Application.UnitTests/Features/Pqrsdf/PublicTicketStatusPrivacyTests.cs`
-- [ ] T023 [US3] API contract test verifying `GET /api/v1/pqrsdf/{radicado}` response body omits all applicant PII in `backend/tests/Application.UnitTests/Api/PqrsdfApiPrivacyTests.cs`
+- [X] T022 [P] [US3] Unit test asserting reflection scan on `PublicTicketStatusDto` contains 0 properties related to applicant name, document, email, or phone in `backend/tests/Application.UnitTests/Features/Pqrsdf/PublicTicketStatusPrivacyTests.cs`
+- [X] T023 [US3] API contract test verifying `GET /api/v1/pqrsdf/{radicado}` response body omits all applicant PII in `backend/tests/Application.UnitTests/Api/PqrsdfApiPrivacyTests.cs`
 
 **Checkpoint**: 0% PII exposure verified across model and API contract.
 
@@ -97,10 +97,10 @@
 **Independent Test**: Can be tested by consulting tickets with future due dates (asserting positive remaining days) and tickets with past due dates (asserting overdue badge and elapsed mora days).
 
 ### Tests for User Story 4
-- [ ] T024 [P] [US4] Unit tests in `backend/tests/Application.UnitTests/Features/Pqrsdf/GetTicketByRadicadoOverdueTests.cs` verifying `RemainingBusinessDays`, `IsOverdue`, and `OverdueBusinessDays` mappings for in-term and overdue states
+- [X] T024 [P] [US4] Unit tests in `backend/tests/Application.UnitTests/Features/Pqrsdf/GetTicketByRadicadoOverdueTests.cs` verifying `RemainingBusinessDays`, `IsOverdue`, and `OverdueBusinessDays` mappings for in-term and overdue states
 
 ### Implementation for User Story 4
-- [ ] T025 [US4] Update `TicketStatusHeader` to render dynamic remaining days counter and prominent overdue warning badge (*"Vencida hace X días hábiles"*) in `frontend/src/app/pqrsdf/search/components/TicketStatusHeader.tsx`
+- [X] T025 [US4] Update `TicketStatusHeader` to render dynamic remaining days counter and prominent overdue warning badge (*"Vencida hace X días hábiles"*) in `frontend/src/app/pqrsdf/search/components/TicketStatusHeader.tsx`
 
 **Checkpoint**: Statutory countdown and mora alerts operational.
 
@@ -110,10 +110,10 @@
 
 **Purpose**: Navigation integrations, deep-linking verification, and end-to-end test execution
 
-- [ ] T026 Add direct link button to `/pqrsdf/search?radicado={radicado}` on the registration confirmation receipt in `frontend/src/app/pqrsdf/components/ConfirmationReceipt.tsx`
-- [ ] T027 [P] Add navigation link to `/pqrsdf/search` in the portal home cards in `frontend/src/app/page.tsx` and main navbar in `frontend/src/app/layout.tsx`
-- [ ] T028 [P] Component and user interaction tests for `/pqrsdf/search` page in `frontend/tests/app/pqrsdf/search/TicketSearch.test.tsx`
-- [ ] T029 Run complete backend solution test suite (`dotnet test`) and frontend test suite (`npm test`)
+- [X] T026 Add direct link button to `/pqrsdf/search?radicado={radicado}` on the registration confirmation receipt in `frontend/src/app/pqrsdf/components/ConfirmationReceipt.tsx`
+- [X] T027 [P] Add navigation link to `/pqrsdf/search` in the portal home cards in `frontend/src/app/page.tsx` and main navbar in `frontend/src/app/layout.tsx`
+- [X] T028 [P] Component and user interaction tests for `/pqrsdf/search` page in `frontend/tests/app/pqrsdf/search/TicketSearch.test.tsx`
+- [X] T029 Run complete backend solution test suite (`dotnet test`) and frontend test suite (`npm test`)
 
 ---
 

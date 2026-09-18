@@ -22,13 +22,25 @@ public abstract class ApiControllerBase : ControllerBase
             return Ok(result);
         }
 
+        var errorResponse = new
+        {
+            isSuccess = false,
+            isFailure = true,
+            error = new
+            {
+                code = result.Error.Code,
+                message = result.Error.Message,
+                type = result.Error.Type.ToString()
+            }
+        };
+
         return result.Error.Type switch
         {
-            ErrorType.NotFound => NotFound(result),
-            ErrorType.Validation => BadRequest(result),
-            ErrorType.Conflict => Conflict(result),
-            ErrorType.Unauthorized => Unauthorized(result),
-            _ => BadRequest(result)
+            ErrorType.NotFound => NotFound(errorResponse),
+            ErrorType.Validation => BadRequest(errorResponse),
+            ErrorType.Conflict => Conflict(errorResponse),
+            ErrorType.Unauthorized => Unauthorized(errorResponse),
+            _ => BadRequest(errorResponse)
         };
     }
 }
