@@ -21,6 +21,9 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
     public TicketStatus Status { get; private set; }
     public string? ResponseText { get; private set; }
     public DateTime? ResponseDateUtc { get; private set; }
+    public Guid? AssignedToUserId { get; private set; }
+    public DateTime? AssignedAtUtc { get; private set; }
+    public string? AssignmentNote { get; private set; }
 
     // Required for EF Core
     private PqrsdfTicket()
@@ -43,7 +46,10 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
         DueDate dueDate,
         TicketStatus status,
         string? responseText = null,
-        DateTime? responseDateUtc = null) : base(id)
+        DateTime? responseDateUtc = null,
+        Guid? assignedToUserId = null,
+        DateTime? assignedAtUtc = null,
+        string? assignmentNote = null) : base(id)
     {
         RadicadoNumber = radicadoNumber;
         Type = type;
@@ -56,6 +62,9 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
         Status = status;
         ResponseText = responseText;
         ResponseDateUtc = responseDateUtc;
+        AssignedToUserId = assignedToUserId;
+        AssignedAtUtc = assignedAtUtc;
+        AssignmentNote = assignmentNote;
     }
 
     public static Result<PqrsdfTicket> Create(
@@ -164,4 +173,106 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
 
         return Result.Success();
     }
+
+    public Result AssignToOfficial(
+        Guid officialId,
+        Guid adminId,
+        string? assignmentNote,
+        int currentOfficialActiveWorkload,
+        DateTime utcNow)
+    {
+        if (Status != TicketStatus.Registered)
+        {
+            return Result.Failure(Error.Conflict(
+                "PqrsdfTicket.NotEligibleForAssignment",
+                "Solo se pueden asignar solicitudes que se encuentren en estado Registrado."));
+        }
+
+        if (officialId == Guid.Empty)
+        {
+            return Result.Failure(Error.Validation(
+                "PqrsdfTicket.InvalidOfficialId",
+                "Debe seleccionar un funcionario válido."));
+        }
+
+        if (currentOfficialActiveWorkload >= 5)
+        {
+            return Result.Failure(Error.Conflict(
+                "PqrsdfTicket.OfficialWorkloadLimitReached",
+                "El funcionario seleccionado ha alcanzado el límite máximo de 5 solicitudes asignadas activas."));
+        }
+
+        if (assignmentNote != null && assignmentNote.Trim().Length > 500)
+        {
+            return Result.Failure(Error.Validation(
+                "PqrsdfTicket.AssignmentNoteTooLong",
+                "La nota de asignación no puede exceder los 500 caracteres."));
+        }
+
+        AssignedToUserId = officialId;
+        AssignedAtUtc = utcNow;
+        AssignmentNote = string.IsNullOrWhiteSpace(assignmentNote) ? null : assignmentNote.Trim();
+        Status = TicketStatus.InReview;
+        UpdatedAtUtc = utcNow;
+
+        return Result.Success();
+    }
+
+    public Result ReassignToOfficial(
+        Guid newOfficialId,
+        Guid adminId,
+        string justification,
+        int targetOfficialActiveWorkload,
+        DateTime utcNow)
+    {
+        if (Status != TicketStatus.InReview)
+        {
+            return Result.Failure(Error.Conflict(
+                "PqrsdfTicket.NotEligibleForReassignment",
+                "Solo se pueden reasignar solicitudes que se encuentren en estado En Trámite."));
+        }
+
+        if (newOfficialId == Guid.Empty)
+        {
+            return Result.Failure(Error.Validation(
+                "PqrsdfTicket.InvalidOfficialId",
+                "Debe seleccionar un funcionario válido para el traslado."));
+        }
+
+        if (AssignedToUserId.HasValue && AssignedToUserId.Value == newOfficialId)
+        {
+            return Result.Failure(Error.Conflict(
+                "PqrsdfTicket.SameOfficialReassignment",
+                "La solicitud ya se encuentra asignada a este funcionario."));
+        }
+
+        if (string.IsNullOrWhiteSpace(justification) || justification.Trim().Length < 10)
+        {
+            return Result.Failure(Error.Validation(
+                "PqrsdfTicket.JustificationTooShort",
+                "Debe ingresar un motivo de reasignación de al menos 10 caracteres."));
+        }
+
+        if (justification.Trim().Length > 500)
+        {
+            return Result.Failure(Error.Validation(
+                "PqrsdfTicket.JustificationTooLong",
+                "El motivo de reasignación no puede exceder los 500 caracteres."));
+        }
+
+        if (targetOfficialActiveWorkload >= 5)
+        {
+            return Result.Failure(Error.Conflict(
+                "PqrsdfTicket.OfficialWorkloadLimitReached",
+                "El funcionario seleccionado para reasignación ha alcanzado el límite de 5 solicitudes activas."));
+        }
+
+        AssignedToUserId = newOfficialId;
+        AssignedAtUtc = utcNow;
+        AssignmentNote = justification.Trim();
+        UpdatedAtUtc = utcNow;
+
+        return Result.Success();
+    }
 }
+

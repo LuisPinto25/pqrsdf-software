@@ -86,6 +86,20 @@ public sealed class PqrsdfTicketConfiguration : IEntityTypeConfiguration<PqrsdfT
 
         builder.Property(x => x.ResponseDateUtc);
 
+        builder.HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.AssignedToUserId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
+
+        builder.Property(x => x.AssignedAtUtc);
+
+        builder.Property(x => x.AssignmentNote)
+            .HasMaxLength(500);
+
+        builder.HasIndex(x => new { x.AssignedToUserId, x.Status });
+        builder.HasIndex(x => x.Status);
+
         builder.Property(x => x.CreatedAtUtc)
             .IsRequired();
 

@@ -65,6 +65,12 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
                 "funcionario@pqrsdf.gov.co",
                 "$2a$11$fzrWhddqPT09gX.1iZRKf.pOLf4epbqVmw1qUhwF2DBU07Tfi2Vgy",
                 "Funcionario de PQRSDF",
+                UserRole.Funcionario),
+            CreateSeedUser(
+                new Guid("F5A0E6B2-1C3D-428E-874C-9659CF851F03"),
+                "funcionario2@pqrsdf.gov.co",
+                "$2a$11$fzrWhddqPT09gX.1iZRKf.pOLf4epbqVmw1qUhwF2DBU07Tfi2Vgy",
+                "María Fernanda Gómez",
                 UserRole.Funcionario)
         );
     }

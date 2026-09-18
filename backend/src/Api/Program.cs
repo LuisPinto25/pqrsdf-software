@@ -214,6 +214,18 @@ using (var scope = app.Services.CreateScope())
                 BEGIN
                     ALTER TABLE PqrsdfTickets ADD ResponseText nvarchar(4000) NULL;
                 END
+                IF COL_LENGTH('PqrsdfTickets', 'AssignedToUserId') IS NULL
+                BEGIN
+                    ALTER TABLE PqrsdfTickets ADD AssignedToUserId uniqueidentifier NULL;
+                END
+                IF COL_LENGTH('PqrsdfTickets', 'AssignedAtUtc') IS NULL
+                BEGIN
+                    ALTER TABLE PqrsdfTickets ADD AssignedAtUtc datetime2 NULL;
+                END
+                IF COL_LENGTH('PqrsdfTickets', 'AssignmentNote') IS NULL
+                BEGIN
+                    ALTER TABLE PqrsdfTickets ADD AssignmentNote nvarchar(500) NULL;
+                END
             END
 
             IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Users')
@@ -234,7 +246,32 @@ using (var scope = app.Services.CreateScope())
                 INSERT INTO [dbo].[Users] ([Id], [Email], [PasswordHash], [FullName], [Role], [IsActive], [CreatedAtUtc])
                 VALUES 
                 ('B81B94C8-E0C7-4187-8A33-89AC54395E01', 'admin@pqrsdf.gov.co', '$2a$11$MJdcdRnVBhcwT5M/6j6VWedZXXxbf2S4xRTp5/JZKUheied8ihHO2', 'Administrador del Sistema', 2, 1, '2026-01-01T00:00:00Z'),
-                ('E49D34F1-9BD7-40A5-926B-9548BE740F02', 'funcionario@pqrsdf.gov.co', '$2a$11$fzrWhddqPT09gX.1iZRKf.pOLf4epbqVmw1qUhwF2DBU07Tfi2Vgy', 'Funcionario de PQRSDF', 1, 1, '2026-01-01T00:00:00Z');
+                ('E49D34F1-9BD7-40A5-926B-9548BE740F02', 'funcionario@pqrsdf.gov.co', '$2a$11$fzrWhddqPT09gX.1iZRKf.pOLf4epbqVmw1qUhwF2DBU07Tfi2Vgy', 'Funcionario de PQRSDF', 1, 1, '2026-01-01T00:00:00Z'),
+                ('F5A0E6B2-1C3D-428E-874C-9659CF851F03', 'funcionario2@pqrsdf.gov.co', '$2a$11$fzrWhddqPT09gX.1iZRKf.pOLf4epbqVmw1qUhwF2DBU07Tfi2Vgy', 'María Fernanda Gómez', 1, 1, '2026-01-01T00:00:00Z');
+            END
+
+            IF EXISTS (SELECT * FROM sys.tables WHERE name = 'Users') AND NOT EXISTS (SELECT * FROM [dbo].[Users] WHERE [Email] = 'funcionario2@pqrsdf.gov.co')
+            BEGIN
+                INSERT INTO [dbo].[Users] ([Id], [Email], [PasswordHash], [FullName], [Role], [IsActive], [CreatedAtUtc])
+                VALUES ('F5A0E6B2-1C3D-428E-874C-9659CF851F03', 'funcionario2@pqrsdf.gov.co', '$2a$11$fzrWhddqPT09gX.1iZRKf.pOLf4epbqVmw1qUhwF2DBU07Tfi2Vgy', 'María Fernanda Gómez', 1, 1, '2026-01-01T00:00:00Z');
+            END
+
+            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TicketAssignmentHistories')
+            BEGIN
+                CREATE TABLE [dbo].[TicketAssignmentHistories] (
+                    [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+                    [TicketId] UNIQUEIDENTIFIER NOT NULL,
+                    [PreviousAssignedUserId] UNIQUEIDENTIFIER NULL,
+                    [NewAssignedUserId] UNIQUEIDENTIFIER NOT NULL,
+                    [AssignedByUserId] UNIQUEIDENTIFIER NOT NULL,
+                    [AssignedAtUtc] DATETIME2 NOT NULL,
+                    [Note] NVARCHAR(500) NULL,
+                    [Type] INT NOT NULL,
+                    [CreatedAtUtc] DATETIME2 NOT NULL,
+                    [UpdatedAtUtc] DATETIME2 NULL
+                );
+                CREATE NONCLUSTERED INDEX [IX_TicketAssignmentHistories_TicketId] ON [dbo].[TicketAssignmentHistories] ([TicketId]);
+                CREATE NONCLUSTERED INDEX [IX_TicketAssignmentHistories_NewAssignedUserId] ON [dbo].[TicketAssignmentHistories] ([NewAssignedUserId]);
             END
         ");
 

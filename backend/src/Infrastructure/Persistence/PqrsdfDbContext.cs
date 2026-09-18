@@ -19,6 +19,7 @@ public class PqrsdfDbContext : DbContext
     public DbSet<RadicadoSequence> RadicadoSequences => Set<RadicadoSequence>();
     public DbSet<PqrsdfTicket> PqrsdfTickets => Set<PqrsdfTicket>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<TicketAssignmentHistory> TicketAssignmentHistories => Set<TicketAssignmentHistory>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -29,6 +29,15 @@ public sealed class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 
+    public async Task<IReadOnlyList<User>> GetActiveOfficialsAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<User>()
+            .AsNoTracking()
+            .Where(u => u.IsActive && u.Role == Domain.Enums.UserRole.Funcionario)
+            .OrderBy(u => u.FullName)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task AddAsync(User user, CancellationToken cancellationToken = default)
     {
         await _dbContext.Set<User>().AddAsync(user, cancellationToken);

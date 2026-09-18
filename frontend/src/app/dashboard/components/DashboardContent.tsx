@@ -11,8 +11,10 @@ import {
   BarChart3, 
   Users, 
   Search, 
-  LogOut 
+  LogOut,
+  ClipboardList
 } from 'lucide-react';
+import { OfficialInboxTable } from './OfficialInboxTable';
 
 export function DashboardContent() {
   const t = useTranslations('Dashboard');
@@ -106,6 +108,28 @@ export function DashboardContent() {
         </div>
 
         {isRoleAdmin && (
+          <Link
+            href="/dashboard/assignments"
+            className="group p-6 bg-white rounded-xl border border-institutional-200 bg-institutional-50/20 shadow-sm hover:shadow-md hover:border-institutional-400 transition-all flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-institutional-100 text-institutional-700 flex items-center justify-center group-hover:bg-institutional-600 group-hover:text-white transition-colors">
+                <ClipboardList className="w-5 h-5" />
+              </div>
+              <h2 className="text-base font-bold text-institutional-950">
+                Asignación de Solicitudes
+              </h2>
+              <p className="text-xs text-institutional-800">
+                Distribución y balanceo de carga de PQRSDF radicadas a funcionarios activos.
+              </p>
+            </div>
+            <span className="text-xs text-institutional-600 font-semibold mt-4 block">
+              Gestionar asignaciones &rarr;
+            </span>
+          </Link>
+        )}
+
+        {isRoleAdmin && (
           <div className="p-6 bg-white rounded-xl border border-purple-200 bg-purple-50/20 shadow-sm flex flex-col justify-between">
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
@@ -141,6 +165,13 @@ export function DashboardContent() {
           </span>
         </div>
       </div>
+
+      {/* Official Workload Inbox (US3) */}
+      {!isRoleAdmin && (
+        <div className="pt-2">
+          <OfficialInboxTable />
+        </div>
+      )}
     </div>
   );
 }

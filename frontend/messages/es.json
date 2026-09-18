@@ -214,5 +214,92 @@
       "rateLimitMessage": "Ha superado el límite de consultas permitidas por minuto. Por favor espere un momento antes de intentar de nuevo.",
       "generalError": "Ocurrió un error al consultar el radicado. Por favor intente nuevamente."
     }
+  },
+  "Assignments": {
+    "title": "Gestión y Asignación de Solicitudes",
+    "subtitle": "Distribución operativa y supervisión del flujo de trabajo de PQRSDF",
+    "tabs": {
+      "unassigned": "Sin Asignar",
+      "inReview": "En Trámite"
+    },
+    "search": {
+      "placeholder": "Buscar por radicado o asunto...",
+      "clear": "Limpiar filtro"
+    },
+    "filters": {
+      "typeLabel": "Tipo de Trámite:",
+      "allTypes": "Todos los tipos",
+      "areaLabel": "Dependencia Destino:",
+      "allAreas": "Todas las áreas"
+    },
+    "table": {
+      "radicado": "Radicado",
+      "type": "Tipo",
+      "area": "Dependencia",
+      "subject": "Asunto",
+      "filingDate": "Fecha Radicación",
+      "dueDate": "Fecha Límite",
+      "remainingDays": "Días Hábiles",
+      "official": "Funcionario Asignado",
+      "assignedDate": "Fecha Asignación",
+      "adminNote": "Instrucción / Motivo",
+      "actions": "Acciones",
+      "assignAction": "Asignar",
+      "reassignAction": "Reasignar",
+      "viewDetail": "Ver detalle",
+      "emptyUnassigned": "No hay solicitudes sin asignar en este momento. Todos los requerimientos se encuentran debidamente distribuidos.",
+      "emptyInReview": "No se encontraron solicitudes en trámite con los criterios especificados."
+    },
+    "drawer": {
+      "title": "Detalle de la Solicitud",
+      "radicadoBadge": "Radicado: {radicado}",
+      "typeLabel": "Tipo de Solicitud:",
+      "areaLabel": "Área de Destino:",
+      "filingDateLabel": "Fecha Radicación:",
+      "dueDateLabel": "Fecha Máxima Legal:",
+      "subjectLabel": "Asunto:",
+      "descriptionLabel": "Descripción Completa del Ciudadano:",
+      "assignmentSection": "Designación de Funcionario Responsable",
+      "reassignmentSection": "Reasignación de Funcionario Responsable",
+      "currentOfficial": "Funcionario actual:",
+      "selectOfficialLabel": "Seleccione el Funcionario:",
+      "selectOfficialPlaceholder": "-- Seleccione un funcionario activo --",
+      "optionalNoteLabel": "Instrucciones de Trabajo (Opcional):",
+      "optionalNotePlaceholder": "Instrucciones o antecedentes relevantes para el funcionario (máx. 500 caracteres)...",
+      "justificationLabel": "Motivo Obligatorio del Traslado:",
+      "justificationPlaceholder": "Describa la justificación legal u operativa de la reasignación (mínimo 10 caracteres)...",
+      "justificationHint": "El motivo quedará registrado inmutablemente en el historial de auditoría.",
+      "confirmAssign": "Confirmar Asignación",
+      "confirmReassign": "Confirmar Reasignación",
+      "assigning": "Asignando...",
+      "reassigning": "Reasignando...",
+      "close": "Cerrar"
+    },
+    "urgency": {
+      "critical": "Crítico (≤ 3 días)",
+      "attention": "Atención (4-7 días)",
+      "onTime": "A tiempo (≥ 8 días)",
+      "overdue": "Vencida"
+    },
+    "workload": {
+      "ratio": "{current}/5 activas",
+      "full": "Cupo Lleno (5/5)",
+      "available": "{available} cupos disponibles"
+    },
+    "inbox": {
+      "title": "Mis Solicitudes Asignadas",
+      "subtitle": "Bandeja de trabajo personal con solicitudes en trámite bajo su responsabilidad",
+      "workloadRatio": "Carga actual: {count} de 5 solicitudes permitidas",
+      "empty": "No tiene solicitudes asignadas pendientes de respuesta en este momento.",
+      "respondAction": "Atender Solicitud"
+    },
+    "messages": {
+      "assignSuccess": "Solicitud asignada exitosamente al funcionario.",
+      "reassignSuccess": "Solicitud reasignada exitosamente. Se ha actualizado el registro de auditoría.",
+      "justificationRequired": "Debe ingresar una justificación de al menos 10 caracteres para la reasignación.",
+      "workloadLimitReached": "El funcionario seleccionado ha alcanzado el límite máximo de 5 solicitudes asignadas activas.",
+      "errorLoadingOfficials": "No fue posible cargar el listado de funcionarios elegibles.",
+      "errorLoadingQueue": "Ocurrió un error al consultar las solicitudes. Por favor intente nuevamente."
+    }
   }
 }
