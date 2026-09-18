@@ -19,6 +19,8 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
     public string Description { get; private set; }
     public DueDate DueDate { get; private set; }
     public TicketStatus Status { get; private set; }
+    public string? ResponseText { get; private set; }
+    public DateTime? ResponseDateUtc { get; private set; }
 
     // Required for EF Core
     private PqrsdfTicket()
@@ -39,7 +41,9 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
         string subject,
         string description,
         DueDate dueDate,
-        TicketStatus status) : base(id)
+        TicketStatus status,
+        string? responseText = null,
+        DateTime? responseDateUtc = null) : base(id)
     {
         RadicadoNumber = radicadoNumber;
         Type = type;
@@ -50,6 +54,8 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
         Description = description;
         DueDate = dueDate;
         Status = status;
+        ResponseText = responseText;
+        ResponseDateUtc = responseDateUtc;
     }
 
     public static Result<PqrsdfTicket> Create(
@@ -118,5 +124,44 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
             description.Trim(),
             dueDate,
             TicketStatus.Registered));
+    }
+
+    public Result CloseWithResponse(string? responseText, DateTime responseDateUtc)
+    {
+        if (string.IsNullOrWhiteSpace(responseText) || responseText.Trim().Length < 10 || responseText.Trim().Length > 4000)
+        {
+            return Result.Failure(Error.Validation(
+                "PqrsdfTicket.InvalidResponseText",
+                "El texto de la respuesta institucional debe tener entre 10 y 4000 caracteres."));
+        }
+
+        if (Status == TicketStatus.Closed)
+        {
+            return Result.Failure(Error.Conflict(
+                "PqrsdfTicket.AlreadyClosed",
+                "La solicitud ya se encuentra en estado cerrado."));
+        }
+
+        ResponseText = responseText.Trim();
+        ResponseDateUtc = responseDateUtc;
+        Status = TicketStatus.Closed;
+        UpdatedAtUtc = responseDateUtc;
+
+        return Result.Success();
+    }
+
+    public Result ChangeStatus(TicketStatus newStatus)
+    {
+        if (Status == TicketStatus.Closed)
+        {
+            return Result.Failure(Error.Conflict(
+                "PqrsdfTicket.AlreadyClosed",
+                "No se puede cambiar el estado de una solicitud cerrada."));
+        }
+
+        Status = newStatus;
+        UpdatedAtUtc = DateTime.UtcNow;
+
+        return Result.Success();
     }
 }

@@ -81,6 +81,11 @@ public sealed class PqrsdfTicketConfiguration : IEntityTypeConfiguration<PqrsdfT
             .HasConversion<int>()
             .IsRequired();
 
+        builder.Property(x => x.ResponseText)
+            .HasMaxLength(4000);
+
+        builder.Property(x => x.ResponseDateUtc);
+
         builder.Property(x => x.CreatedAtUtc)
             .IsRequired();
 

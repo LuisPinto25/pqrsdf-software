@@ -36,6 +36,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   PQRSDF
                 </a>
                 <a
+                  href="/pqrsdf/search"
+                  className="text-sm font-medium text-slate-200 hover:text-white transition"
+                >
+                  Consultar Radicado
+                </a>
+                <a
                   href="/auth"
                   className="text-sm font-medium text-slate-200 hover:text-white transition"
                 >

@@ -15,6 +15,7 @@ import {
   FileText,
   RotateCcw,
   Home,
+  Search,
 } from 'lucide-react';
 import type { MakePqrsdfResponse } from '../types/pqrsdf';
 
@@ -201,16 +202,26 @@ export const ConfirmationReceipt: React.FC<ConfirmationReceiptProps> = ({ data, 
 
       {/* Botones de Acción */}
       <div className="pt-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-        {onReset && (
-          <button
-            type="button"
-            onClick={onReset}
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+          <Link
+            href={`/pqrsdf/search?radicado=${encodeURIComponent(data.radicadoNumber)}`}
             className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition shadow-xs cursor-pointer text-sm"
           >
-            <RotateCcw className="w-4 h-4" />
-            <span>{t('confirmation.fileAnother')}</span>
-          </button>
-        )}
+            <Search className="w-4 h-4" />
+            <span>{t('confirmation.trackTicket')}</span>
+          </Link>
+
+          {onReset && (
+            <button
+              type="button"
+              onClick={onReset}
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition text-sm cursor-pointer"
+            >
+              <RotateCcw className="w-4 h-4" />
+              <span>{t('confirmation.fileAnother')}</span>
+            </button>
+          )}
+        </div>
 
         <Link
           href="/"

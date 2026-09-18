@@ -2,6 +2,7 @@ using Pqrsdf.Api.Shared.Middleware;
 using Pqrsdf.Application;
 using Pqrsdf.Infrastructure;
 using Pqrsdf.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,38 @@ builder.Services.AddCors(options =>
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<PqrsdfDbContext>("sqlserver");
 
+// Configure IP-based Rate Limiting (30 requests/minute)
+const string PublicTrackingPolicy = "PublicTrackingPolicy";
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.ContentType = "application/problem+json";
+        var problemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+        {
+            Type = "https://tools.ietf.org/html/rfc6585#section-4",
+            Title = "Too Many Requests",
+            Status = StatusCodes.Status429TooManyRequests,
+            Detail = "Ha superado el límite de consultas permitidas por minuto. Por favor espere un momento antes de intentar de nuevo."
+        };
+        await context.HttpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken: token);
+    };
+
+    options.AddPolicy(PublicTrackingPolicy, httpContext =>
+    {
+        var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        return System.Threading.RateLimiting.RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: remoteIp,
+            factory: _ => new System.Threading.RateLimiting.FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 30,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            });
+    });
+});
+
 var app = builder.Build();
 
 // Global Exception Handler must be the first middleware in the pipeline
@@ -51,6 +84,8 @@ app.UseExceptionHandler();
 
 // Enable CORS for frontend requests
 app.UseCors(CorsPolicy);
+
+app.UseRateLimiter();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -72,7 +107,7 @@ app.UseAuthorization();
 app.MapHealthChecks("/health");
 app.MapControllers();
 
-// Ensure database exists on startup
+// Ensure database exists and schema is up to date on startup
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -80,6 +115,21 @@ using (var scope = app.Services.CreateScope())
     {
         var context = services.GetRequiredService<PqrsdfDbContext>();
         await context.Database.EnsureCreatedAsync();
+
+        // Ensure schema evolution for existing database instances
+        await context.Database.ExecuteSqlRawAsync(@"
+            IF EXISTS (SELECT * FROM sys.tables WHERE name = 'PqrsdfTickets')
+            BEGIN
+                IF COL_LENGTH('PqrsdfTickets', 'ResponseDateUtc') IS NULL
+                BEGIN
+                    ALTER TABLE PqrsdfTickets ADD ResponseDateUtc datetime2 NULL;
+                END
+                IF COL_LENGTH('PqrsdfTickets', 'ResponseText') IS NULL
+                BEGIN
+                    ALTER TABLE PqrsdfTickets ADD ResponseText nvarchar(4000) NULL;
+                END
+            END
+        ");
     }
     catch (Exception ex)
     {

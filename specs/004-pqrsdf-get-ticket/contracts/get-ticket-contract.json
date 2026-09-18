@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetTicketByRadicadoContract",
+  "description": "API contract for public PQRSDF ticket tracking by radicado number (GET /api/v1/pqrsdf/{radicado})",
+  "endpoint": {
+    "method": "GET",
+    "path": "/api/v1/pqrsdf/{radicado}",
+    "summary": "Public query returning ticket operational status, timeline, dates, and response without PII",
+    "authenticated": false,
+    "rateLimit": "30 requests per minute per IP address"
+  },
+  "parameters": {
+    "radicado": {
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{8}$",
+      "example": "2026-00000001",
+      "description": "Unique filing radicado identifier"
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "Ticket status and progress timeline successfully retrieved",
+      "content": {
+        "application/json": {
+          "type": "object",
+          "required": [
+            "isSuccess",
+            "value"
+          ],
+          "properties": {
+            "isSuccess": {
+              "type": "boolean",
+              "example": true
+            },
+            "value": {
+              "type": "object",
+              "required": [
+                "radicadoNumber",
+                "requestType",
+                "destinationAreaName",
+                "subject",
+                "description",
+                "status",
+                "filingDate",
+                "dueDate",
+                "isOverdue",
+                "timeline"
+              ],
+              "properties": {
+                "radicadoNumber": {
+                  "type": "string",
+                  "example": "2026-00000001"
+                },
+                "requestType": {
+                  "type": "string",
+                  "example": "Petition"
+                },
+                "destinationAreaName": {
+                  "type": "string",
+                  "example": "Atención al Ciudadano"
+                },
+                "subject": {
+                  "type": "string",
+                  "example": "Solicitud de información sobre trámites de predial"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Requiero copia del certificado del trámite radicado el mes anterior."
+                },
+                "status": {
+                  "type": "string",
+                  "enum": ["Registered", "Assigned", "InReview", "Answered", "Closed"],
+                  "example": "InReview"
+                },
+                "filingDate": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2026-09-18"
+                },
+                "dueDate": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2026-10-09"
+                },
+                "remainingBusinessDays": {
+                  "type": ["integer", "null"],
+                  "example": 14
+                },
+                "isOverdue": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "overdueBusinessDays": {
+                  "type": ["integer", "null"],
+                  "example": null
+                },
+                "timeline": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["status", "title", "isCompleted", "isCurrent"],
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "Registered"
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "Radicado"
+                      },
+                      "date": {
+                        "type": ["string", "null"],
+                        "format": "date-time",
+                        "example": "2026-09-18T14:30:00Z"
+                      },
+                      "isCompleted": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "isCurrent": {
+                        "type": "boolean",
+                        "example": false
+                      }
+                    }
+                  }
+                },
+                "resolution": {
+                  "type": ["object", "null"],
+                  "properties": {
+                    "responseText": {
+                      "type": "string",
+                      "example": "Dando respuesta a su solicitud, le confirmamos que el trámite ha sido expedido satisfactoriamente."
+                    },
+                    "responseDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2026-09-25T10:15:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "description": "Invalid radicado number format",
+      "content": {
+        "application/json": {
+          "type": "object",
+          "properties": {
+            "isSuccess": { "type": "boolean", "example": false },
+            "error": {
+              "type": "object",
+              "properties": {
+                "code": { "type": "string", "example": "Radicado.InvalidFormat" },
+                "message": { "type": "string", "example": "El número de radicado debe tener el formato AAAA-NNNNNNNN (ej. 2026-00000001)." }
+              }
+            }
+          }
+        }
+      }
+    },
+    "404": {
+      "description": "Radicado number not found",
+      "content": {
+        "application/json": {
+          "type": "object",
+          "properties": {
+            "isSuccess": { "type": "boolean", "example": false },
+            "error": {
+              "type": "object",
+              "properties": {
+                "code": { "type": "string", "example": "PqrsdfTicket.NotFound" },
+                "message": { "type": "string", "example": "No se encontró ninguna solicitud con el radicado ingresado. Por favor verifique el número e intente de nuevo." }
+              }
+            }
+          }
+        }
+      }
+    },
+    "429": {
+      "description": "Too many requests from this IP (Rate Limit Exceeded)",
+      "content": {
+        "application/problem+json": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string", "example": "https://tools.ietf.org/html/rfc6585#section-4" },
+            "title": { "type": "string", "example": "Too Many Requests" },
+            "status": { "type": "integer", "example": 429 },
+            "detail": { "type": "string", "example": "Ha superado el límite de consultas permitidas por minuto. Por favor espere un momento antes de intentar de nuevo." }
+          }
+        }
+      }
+    }
+  }
+}

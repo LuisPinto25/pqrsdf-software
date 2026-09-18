@@ -36,4 +36,54 @@ public sealed class DueDateCalculator
 
         return DueDate.Create(currentDate, targetBusinessDays);
     }
+
+    /// <summary>
+    /// Computes the number of business days remaining between today and the due date.
+    /// </summary>
+    public int CalculateRemainingBusinessDays(DateOnly today, DateOnly dueDate)
+    {
+        if (today >= dueDate)
+        {
+            return 0;
+        }
+
+        int remaining = 0;
+        DateOnly current = today;
+
+        while (current < dueDate)
+        {
+            current = current.AddDays(1);
+            if (_holidayService.IsBusinessDay(current))
+            {
+                remaining++;
+            }
+        }
+
+        return remaining;
+    }
+
+    /// <summary>
+    /// Computes the number of Colombian business days elapsed past the statutory deadline when overdue.
+    /// </summary>
+    public int CalculateOverdueBusinessDays(DateOnly today, DateOnly dueDate)
+    {
+        if (today <= dueDate)
+        {
+            return 0;
+        }
+
+        int overdue = 0;
+        DateOnly current = dueDate;
+
+        while (current < today)
+        {
+            current = current.AddDays(1);
+            if (_holidayService.IsBusinessDay(current))
+            {
+                overdue++;
+            }
+        }
+
+        return overdue;
+    }
 }

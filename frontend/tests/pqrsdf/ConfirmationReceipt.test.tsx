@@ -52,6 +52,11 @@ describe('ConfirmationReceipt Component', () => {
 
     // Copy radicado button
     expect(screen.getByRole('button', { name: /Copiar radicado/i })).toBeInTheDocument();
+
+    // Track ticket link button
+    const trackLink = screen.getByRole('link', { name: /Consultar estado de solicitud/i });
+    expect(trackLink).toBeInTheDocument();
+    expect(trackLink).toHaveAttribute('href', '/pqrsdf/search?radicado=2026-00000042');
   });
 
   it('copies the radicado number to clipboard and updates button text to feedback state', async () => {

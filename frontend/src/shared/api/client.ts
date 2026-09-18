@@ -74,3 +74,30 @@ export async function safeRequest<T>(
     });
   }
 }
+
+/**
+ * Retrieves public tracking details for a ticket by radicado number.
+ */
+export async function getTicketByRadicado(
+  radicado: string
+): Promise<Result<import('@/app/pqrsdf/types/pqrsdf').PublicTicketStatusDto, ApiError>> {
+  return safeRequest<import('@/app/pqrsdf/types/pqrsdf').PublicTicketStatusDto>(async () => {
+    const url = `${baseUrl}/api/v1/pqrsdf/${encodeURIComponent(radicado.trim())}`;
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail = json?.error?.message ?? json?.detail ?? mapStatusToMessage(res.status);
+    return { error: { detail }, response: res };
+  });
+}
