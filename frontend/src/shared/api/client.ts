@@ -130,6 +130,38 @@ export async function getTicketByRadicado(
   });
 }
 
+export interface SharedDestinationAreaDto {
+  id: string;
+  name: string;
+  code: string;
+  isActive: boolean;
+}
+
+/**
+ * Retrieves active organizational destination areas.
+ */
+export async function getActiveDestinationAreas(): Promise<Result<SharedDestinationAreaDto[], ApiError>> {
+  return safeRequest<SharedDestinationAreaDto[]>(async () => {
+    const url = `${baseUrl}/api/v1/pqrsdf/areas`;
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: Array.isArray(payload) ? payload : payload?.value || [], response: res };
+    }
+
+    const detail = json?.error?.message ?? json?.detail ?? mapStatusToMessage(res.status);
+    return { error: { detail }, response: res };
+  });
+}
+
 /**
  * Reads the active JWT token from the client document cookie.
  */
@@ -255,5 +287,224 @@ export async function getCurrentUserProfile(): Promise<
     return { error: { detail }, response: res };
   });
 }
+
+/**
+ * Retrieves unassigned tickets list with optional filters.
+ */
+export async function getUnassignedTickets(filters?: {
+  type?: number;
+  destinationAreaId?: string;
+  search?: string;
+}): Promise<Result<import('@/app/dashboard/assignments/types/assignment.types').UnassignedTicketDto[], ApiError>> {
+  return safeRequest<import('@/app/dashboard/assignments/types/assignment.types').UnassignedTicketDto[]>(async () => {
+    const params = new URLSearchParams();
+    if (filters?.type !== undefined && filters.type !== null && !isNaN(filters.type)) {
+      params.append('type', filters.type.toString());
+    }
+    if (filters?.destinationAreaId) {
+      params.append('destinationAreaId', filters.destinationAreaId);
+    }
+    if (filters?.search) {
+      params.append('search', filters.search);
+    }
+    const query = params.toString() ? `?${params.toString()}` : '';
+    const url = `${baseUrl}/api/v1/assignments/unassigned${query}`;
+    const res = await authenticatedFetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail =
+      json?.error?.message ??
+      json?.detail ??
+      mapStatusToMessage(res.status);
+
+    return { error: { detail }, response: res };
+  });
+}
+
+/**
+ * Retrieves officials list with active workloads.
+ */
+export async function getAssignableOfficials(): Promise<
+  Result<import('@/app/dashboard/assignments/types/assignment.types').AssignableOfficialDto[], ApiError>
+> {
+  return safeRequest<import('@/app/dashboard/assignments/types/assignment.types').AssignableOfficialDto[]>(async () => {
+    const url = `${baseUrl}/api/v1/assignments/officials`;
+    const res = await authenticatedFetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail =
+      json?.error?.message ??
+      json?.detail ??
+      mapStatusToMessage(res.status);
+
+    return { error: { detail }, response: res };
+  });
+}
+
+/**
+ * Assigns a registered ticket to an official.
+ */
+export async function assignTicket(
+  radicado: string,
+  data: import('@/app/dashboard/assignments/types/assignment.types').AssignTicketRequest
+): Promise<Result<import('@/app/dashboard/assignments/types/assignment.types').AssignTicketResponse, ApiError>> {
+  return safeRequest<import('@/app/dashboard/assignments/types/assignment.types').AssignTicketResponse>(async () => {
+    const url = `${baseUrl}/api/v1/assignments/${encodeURIComponent(radicado.trim())}/assign`;
+    const res = await authenticatedFetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail =
+      json?.error?.message ??
+      json?.detail ??
+      mapStatusToMessage(res.status);
+
+    return { error: { detail }, response: res };
+  });
+}
+
+/**
+ * Retrieves in-review assigned tickets for administrative oversight.
+ */
+export async function getAssignedTickets(filters?: {
+  destinationAreaId?: string;
+  officialId?: string;
+  search?: string;
+}): Promise<Result<import('@/app/dashboard/assignments/types/assignment.types').AssignedTicketDto[], ApiError>> {
+  return safeRequest<import('@/app/dashboard/assignments/types/assignment.types').AssignedTicketDto[]>(async () => {
+    const params = new URLSearchParams();
+    if (filters?.destinationAreaId) {
+      params.append('destinationAreaId', filters.destinationAreaId);
+    }
+    if (filters?.officialId) {
+      params.append('officialId', filters.officialId);
+    }
+    if (filters?.search) {
+      params.append('search', filters.search);
+    }
+    const query = params.toString() ? `?${params.toString()}` : '';
+    const url = `${baseUrl}/api/v1/assignments/assigned${query}`;
+    const res = await authenticatedFetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail =
+      json?.error?.message ??
+      json?.detail ??
+      mapStatusToMessage(res.status);
+
+    return { error: { detail }, response: res };
+  });
+}
+
+/**
+ * Reassigns an in-review ticket to a different official with justification.
+ */
+export async function reassignTicket(
+  radicado: string,
+  data: import('@/app/dashboard/assignments/types/assignment.types').ReassignTicketRequest
+): Promise<Result<import('@/app/dashboard/assignments/types/assignment.types').ReassignTicketResponse, ApiError>> {
+  return safeRequest<import('@/app/dashboard/assignments/types/assignment.types').ReassignTicketResponse>(async () => {
+    const url = `${baseUrl}/api/v1/assignments/${encodeURIComponent(radicado.trim())}/reassign`;
+    const res = await authenticatedFetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail =
+      json?.error?.message ??
+      json?.detail ??
+      mapStatusToMessage(res.status);
+
+    return { error: { detail }, response: res };
+  });
+}
+
+/**
+ * Retrieves the current official's active assigned inbox tickets.
+ */
+export async function getOfficialInbox(): Promise<
+  Result<import('@/app/dashboard/assignments/types/assignment.types').OfficialInboxResponse, ApiError>
+> {
+  return safeRequest<import('@/app/dashboard/assignments/types/assignment.types').OfficialInboxResponse>(async () => {
+    const url = `${baseUrl}/api/v1/assignments/inbox`;
+    const res = await authenticatedFetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail =
+      json?.error?.message ??
+      json?.detail ??
+      mapStatusToMessage(res.status);
+
+    return { error: { detail }, response: res };
+  });
+}
+
 
 

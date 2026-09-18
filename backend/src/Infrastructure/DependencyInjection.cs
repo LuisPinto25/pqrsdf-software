@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.AddScoped<Pqrsdf.Domain.Repositories.IDestinationAreaRepository, Persistence.Repositories.DestinationAreaRepository>();
         services.AddScoped<Pqrsdf.Domain.Repositories.IPqrsdfTicketRepository, Persistence.Repositories.PqrsdfTicketRepository>();
         services.AddScoped<Pqrsdf.Domain.Repositories.IUserRepository, Persistence.Repositories.UserRepository>();
+        services.AddScoped<Pqrsdf.Domain.Repositories.ITicketAssignmentHistoryRepository, Persistence.Repositories.TicketAssignmentHistoryRepository>();
         services.AddSingleton<Pqrsdf.Application.Common.Interfaces.IPasswordHasher, Security.BCryptPasswordHasher>();
         services.AddScoped<Pqrsdf.Application.Common.Interfaces.IJwtTokenGenerator, Security.JwtTokenGenerator>();
 
