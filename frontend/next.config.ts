@@ -9,7 +9,7 @@ const cspHeader = `
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
     font-src 'self';
-    connect-src 'self' http://localhost:5023 https://localhost:5023;
+    connect-src 'self' http://localhost:5023 https://localhost:5023 http://127.0.0.1:5023 https://127.0.0.1:5023;
     frame-ancestors 'none';
 `
   .replace(/\s{2,}/g, ' ')
