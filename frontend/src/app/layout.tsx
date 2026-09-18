@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
+import { Navigation } from '@/shared/components/Navigation';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -17,45 +18,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang={locale}>
       <body className="min-h-screen bg-slate-50 text-slate-900 antialiased flex flex-col">
         <NextIntlClientProvider messages={messages}>
-          <header className="bg-institutional-800 text-white shadow-md">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <span className="text-xl font-bold tracking-tight">Portal PQRSDF</span>
-              </div>
-              <nav className="flex space-x-6">
-                <a
-                  href="/"
-                  className="text-sm font-medium text-slate-200 hover:text-white transition"
-                >
-                  Inicio
-                </a>
-                <a
-                  href="/pqrsdf"
-                  className="text-sm font-medium text-slate-200 hover:text-white transition"
-                >
-                  PQRSDF
-                </a>
-                <a
-                  href="/pqrsdf/search"
-                  className="text-sm font-medium text-slate-200 hover:text-white transition"
-                >
-                  Consultar Radicado
-                </a>
-                <a
-                  href="/auth"
-                  className="text-sm font-medium text-slate-200 hover:text-white transition"
-                >
-                  Autenticación
-                </a>
-                <a
-                  href="/dashboard"
-                  className="text-sm font-medium text-slate-200 hover:text-white transition"
-                >
-                  Panel de Control
-                </a>
-              </nav>
-            </div>
-          </header>
+          <Navigation />
           <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {children}
           </div>

@@ -18,6 +18,7 @@ public class PqrsdfDbContext : DbContext
     public DbSet<DestinationArea> DestinationAreas => Set<DestinationArea>();
     public DbSet<RadicadoSequence> RadicadoSequences => Set<RadicadoSequence>();
     public DbSet<PqrsdfTicket> PqrsdfTickets => Set<PqrsdfTicket>();
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

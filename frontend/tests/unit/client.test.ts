@@ -68,4 +68,15 @@ describe('Shared API Client safeRequest', () => {
       expect(result.error.message).toContain('No fue posible conectar con el servidor');
     }
   });
+
+  it('should manage auth_token cookie correctly', async () => {
+    const { getAuthToken, setAuthToken, removeAuthToken } = await import('@/shared/api/client');
+
+    setAuthToken('test-jwt-token-12345', 3600);
+    expect(getAuthToken()).toBe('test-jwt-token-12345');
+
+    removeAuthToken();
+    expect(getAuthToken()).toBeFalsy();
+  });
 });
+

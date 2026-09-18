@@ -13,7 +13,9 @@
     "pqrsdf": "Radicar PQRSDF",
     "search": "Consultar Radicado",
     "auth": "Autenticación",
-    "dashboard": "Panel de Control"
+    "dashboard": "Panel de Control",
+    "logout": "Cerrar Sesión",
+    "login": "Ingresar"
   },
   "Pqrsdf": {
     "title": "Radicación Pública de PQRSDF",
@@ -100,13 +102,42 @@
   },
   "Auth": {
     "title": "Inicio de Sesión",
-    "description": "Acceso seguro para ciudadanos y funcionarios",
-    "placeholder": "Módulo de autenticación en construcción"
+    "description": "Acceso seguro para funcionarios y administradores",
+    "subtitle": "Ingrese sus credenciales institucionales para acceder al panel de gestión.",
+    "emailLabel": "Correo Electrónico",
+    "emailPlaceholder": "usuario@pqrsdf.gov.co",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "••••••••",
+    "submitButton": "Iniciar Sesión",
+    "submitting": "Iniciando sesión...",
+    "sessionExpired": "Su sesión ha expirado. Por favor inicie sesión nuevamente.",
+    "logoutSuccess": "Ha cerrado sesión exitosamente.",
+    "errors": {
+      "emailRequired": "El correo electrónico es obligatorio.",
+      "emailInvalid": "Ingrese un correo electrónico válido.",
+      "passwordRequired": "La contraseña es obligatoria.",
+      "invalidCredentials": "Credenciales inválidas. Por favor verifique su correo y contraseña.",
+      "inactiveAccount": "La cuenta de usuario se encuentra inactiva. Contacte al administrador.",
+      "rateLimit": "Demasiados intentos de inicio de sesión fallidos. Por favor intente nuevamente en un minuto.",
+      "generalError": "Ocurrió un error al iniciar sesión. Por favor intente nuevamente."
+    }
   },
   "Dashboard": {
     "title": "Panel de Control",
     "description": "Resumen de indicadores y estado de trámites",
-    "placeholder": "Módulo de panel de control en construcción"
+    "welcomeTitle": "Bienvenido al Panel de Gestión",
+    "welcomeSubtitle": "Sistema de Administración y Seguimiento de PQRSDF",
+    "userRole": "Rol asignado:",
+    "roles": {
+      "Funcionario": "Funcionario",
+      "Administrador": "Administrador"
+    },
+    "actions": {
+      "manageTickets": "Bandeja de PQRSDF",
+      "reports": "Reportes y Estadísticas",
+      "users": "Gestión de Usuarios",
+      "settings": "Configuración del Sistema"
+    }
   },
   "NotFound": {
     "title": "Página no encontrada",

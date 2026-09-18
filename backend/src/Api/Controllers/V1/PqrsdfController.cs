@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pqrsdf.Api.Shared.Controllers;
 using Pqrsdf.Application.Features.Pqrsdf.UseCases.GetActiveDestinationAreas;
@@ -10,6 +11,7 @@ namespace Pqrsdf.Api.Controllers.V1;
 /// <summary>
 /// Controller for public citizen PQRSDF ticket filing operations and catalogs.
 /// </summary>
+[AllowAnonymous]
 public class PqrsdfController : ApiControllerBase
 {
     /// <summary>

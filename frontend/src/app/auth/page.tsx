@@ -1,5 +1,7 @@
+import { Suspense } from 'react';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
+import { LoginForm } from './components/LoginForm';
 
 export default async function AuthPage() {
   const t = await getTranslations('Auth');
@@ -15,12 +17,10 @@ export default async function AuthPage() {
         <span className="text-slate-800 font-medium">{t('title')}</span>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm space-y-4">
-        <h1 className="text-2xl font-bold text-slate-900">{t('title')}</h1>
-        <p className="text-slate-600">{t('description')}</p>
-        <div className="p-4 bg-institutional-50 border border-institutional-200 rounded-lg text-institutional-900 text-sm">
-          {t('placeholder')}
-        </div>
+      <div className="py-6">
+        <Suspense fallback={<div className="text-center py-12 text-slate-500">Cargando formulario...</div>}>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );
