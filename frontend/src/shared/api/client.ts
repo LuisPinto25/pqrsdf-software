@@ -506,5 +506,105 @@ export async function getOfficialInbox(): Promise<
   });
 }
 
+/**
+ * Retrieves full operational and citizen details of an assigned ticket for internal management.
+ */
+export async function getTicketManagementDetail(
+  radicado: string
+): Promise<Result<import('@/app/dashboard/types/ticket-management.types').TicketManagementDetailDto, ApiError>> {
+  return safeRequest<import('@/app/dashboard/types/ticket-management.types').TicketManagementDetailDto>(async () => {
+    const url = `${baseUrl}/api/v1/tickets/${encodeURIComponent(radicado)}/management-detail`;
+    const res = await authenticatedFetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail =
+      json?.error?.message ??
+      json?.detail ??
+      mapStatusToMessage(res.status);
+
+    return { error: { detail }, response: res };
+  });
+}
+
+/**
+ * Registers institutional final response and closes an assigned ticket.
+ */
+export async function respondTicket(
+  radicado: string,
+  request: import('@/app/dashboard/types/ticket-management.types').RespondTicketRequest
+): Promise<Result<import('@/app/dashboard/types/ticket-management.types').RespondTicketResponse, ApiError>> {
+  return safeRequest<import('@/app/dashboard/types/ticket-management.types').RespondTicketResponse>(async () => {
+    const url = `${baseUrl}/api/v1/tickets/${encodeURIComponent(radicado)}/response`;
+    const res = await authenticatedFetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail =
+      json?.error?.message ??
+      json?.detail ??
+      mapStatusToMessage(res.status);
+
+    return { error: { detail }, response: res };
+  });
+}
+
+/**
+ * Updates operational status of an assigned ticket with mandatory justification.
+ */
+export async function changeTicketStatus(
+  radicado: string,
+  request: import('@/app/dashboard/types/ticket-management.types').ChangeTicketStatusRequest
+): Promise<Result<import('@/app/dashboard/types/ticket-management.types').ChangeTicketStatusResponse, ApiError>> {
+  return safeRequest<import('@/app/dashboard/types/ticket-management.types').ChangeTicketStatusResponse>(async () => {
+    const url = `${baseUrl}/api/v1/tickets/${encodeURIComponent(radicado)}/status`;
+    const res = await authenticatedFetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
+
+    const json = await res.json().catch(() => undefined);
+
+    if (res.ok && json) {
+      const payload = json.value ?? json;
+      return { data: payload, response: res };
+    }
+
+    const detail =
+      json?.error?.message ??
+      json?.detail ??
+      mapStatusToMessage(res.status);
+
+    return { error: { detail }, response: res };
+  });
+}
+
+
 
 

@@ -12,7 +12,7 @@ import { OfficialInboxItemDto, OfficialInboxResponse } from '../assignments/type
 import { UrgencyBadge } from '@/shared/components/UrgencyBadge';
 import { WorkloadBadge } from '@/shared/components/WorkloadBadge';
 import { getOfficialInbox } from '@/shared/api/client';
-import { TicketDetailDrawer } from '../assignments/components/TicketDetailDrawer';
+import { ManageTicketDrawer } from './ManageTicketDrawer';
 
 export function OfficialInboxTable() {
   const [inboxData, setInboxData] = useState<OfficialInboxResponse | null>(null);
@@ -200,11 +200,12 @@ export function OfficialInboxTable() {
         </div>
       )}
 
-      {/* Ticket Slide-over Drawer */}
-      <TicketDetailDrawer
-        ticket={selectedTicket}
+      {/* Ticket Slide-over Management Drawer */}
+      <ManageTicketDrawer
+        radicado={selectedTicket?.radicadoNumber ?? null}
         isOpen={isDrawerOpen}
         onClose={handleCloseDrawer}
+        onTicketUpdated={fetchInbox}
       />
     </div>
   );

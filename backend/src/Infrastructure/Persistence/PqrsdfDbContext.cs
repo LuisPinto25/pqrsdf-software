@@ -20,6 +20,7 @@ public class PqrsdfDbContext : DbContext
     public DbSet<PqrsdfTicket> PqrsdfTickets => Set<PqrsdfTicket>();
     public DbSet<User> Users => Set<User>();
     public DbSet<TicketAssignmentHistory> TicketAssignmentHistories => Set<TicketAssignmentHistory>();
+    public DbSet<TicketStatusHistory> TicketStatusHistories => Set<TicketStatusHistory>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
