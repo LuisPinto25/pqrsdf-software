@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RespondTicketContract",
+  "description": "Contract for registering the institutional final response and closing an assigned PQRSDF ticket",
+  "endpoint": {
+    "path": "/api/v1/tickets/{radicado}/response",
+    "method": "POST",
+    "authorization": "Bearer token (Roles: Funcionario, Administrador)",
+    "request": {
+      "pathParameters": {
+        "radicado": {
+          "type": "string",
+          "pattern": "^PQRSDF-\\d{4}-\\d{6}$",
+          "example": "PQRSDF-2026-000001"
+        }
+      },
+      "body": {
+        "type": "object",
+        "required": ["responseText"],
+        "properties": {
+          "responseText": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 4000,
+            "description": "Formal institutional response text delivered to the citizen",
+            "example": "Estimado ciudadano, en atención a su solicitud informamos que se ha completado la revisión técnica respectiva y se procede a..."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Ticket successfully answered and closed",
+        "body": {
+          "type": "object",
+          "required": ["radicadoNumber", "status", "statusName", "responseDateUtc", "closedByOfficialName", "message"],
+          "properties": {
+            "radicadoNumber": { "type": "string", "example": "PQRSDF-2026-000001" },
+            "status": { "type": "integer", "enum": [5], "example": 5 },
+            "statusName": { "type": "string", "example": "Cerrado" },
+            "responseDateUtc": { "type": "string", "format": "date-time", "example": "2026-09-19T10:30:00Z" },
+            "closedByOfficialName": { "type": "string", "example": "Juan Pérez" },
+            "message": { "type": "string", "example": "La respuesta final ha sido registrada y el radicado se encuentra cerrado exitosamente." }
+          }
+        }
+      },
+      "400": {
+        "description": "Validation error (response text empty, < 10 chars or > 4000 chars)",
+        "body": {
+          "type": "object",
+          "properties": {
+            "code": { "type": "string", "example": "PqrsdfTicket.InvalidResponseText" },
+            "message": { "type": "string", "example": "El texto de la respuesta institucional debe tener entre 10 y 4000 caracteres." }
+          }
+        }
+      },
+      "403": {
+        "description": "Forbidden - Current user is not the assigned official and not an administrator",
+        "body": {
+          "type": "object",
+          "properties": {
+            "code": { "type": "string", "example": "PqrsdfTicket.Forbidden" },
+            "message": { "type": "string", "example": "No tiene autorización para responder a esta solicitud." }
+          }
+        }
+      },
+      "404": {
+        "description": "Ticket not found",
+        "body": {
+          "type": "object",
+          "properties": {
+            "code": { "type": "string", "example": "PqrsdfTicket.NotFound" },
+            "message": { "type": "string", "example": "No se encontró ninguna solicitud con el radicado especificado." }
+          }
+        }
+      },
+      "409": {
+        "description": "Conflict - Ticket already closed",
+        "body": {
+          "type": "object",
+          "properties": {
+            "code": { "type": "string", "example": "PqrsdfTicket.AlreadyClosed" },
+            "message": { "type": "string", "example": "La solicitud ya se encuentra en estado cerrado." }
+          }
+        }
+      }
+    }
+  }
+}

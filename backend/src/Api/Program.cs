@@ -273,6 +273,22 @@ using (var scope = app.Services.CreateScope())
                 CREATE NONCLUSTERED INDEX [IX_TicketAssignmentHistories_TicketId] ON [dbo].[TicketAssignmentHistories] ([TicketId]);
                 CREATE NONCLUSTERED INDEX [IX_TicketAssignmentHistories_NewAssignedUserId] ON [dbo].[TicketAssignmentHistories] ([NewAssignedUserId]);
             END
+
+            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TicketStatusHistories')
+            BEGIN
+                CREATE TABLE [dbo].[TicketStatusHistories] (
+                    [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+                    [TicketId] UNIQUEIDENTIFIER NOT NULL,
+                    [PreviousStatus] INT NOT NULL,
+                    [NewStatus] INT NOT NULL,
+                    [ChangedByUserId] UNIQUEIDENTIFIER NOT NULL,
+                    [Justification] NVARCHAR(500) NOT NULL,
+                    [ChangedAtUtc] DATETIME2 NOT NULL,
+                    [CreatedAtUtc] DATETIME2 NOT NULL,
+                    [UpdatedAtUtc] DATETIME2 NULL
+                );
+                CREATE NONCLUSTERED INDEX [IX_TicketStatusHistories_TicketId_ChangedAtUtc] ON [dbo].[TicketStatusHistories] ([TicketId], [ChangedAtUtc] DESC);
+            END
         ");
 
     }

@@ -161,6 +161,11 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
 
     public Result ChangeStatus(TicketStatus newStatus)
     {
+        return ChangeOperationalStatus(newStatus, DateTime.UtcNow);
+    }
+
+    public Result ChangeOperationalStatus(TicketStatus newStatus, DateTime utcNow)
+    {
         if (Status == TicketStatus.Closed)
         {
             return Result.Failure(Error.Conflict(
@@ -169,7 +174,7 @@ public sealed class PqrsdfTicket : Entity<Guid>, IAggregateRoot
         }
 
         Status = newStatus;
-        UpdatedAtUtc = DateTime.UtcNow;
+        UpdatedAtUtc = utcNow;
 
         return Result.Success();
     }

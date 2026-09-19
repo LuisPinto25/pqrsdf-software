@@ -301,5 +301,62 @@
       "errorLoadingOfficials": "No fue posible cargar el listado de funcionarios elegibles.",
       "errorLoadingQueue": "Ocurrió un error al consultar las solicitudes. Por favor intente nuevamente."
     }
+  },
+  "TicketManagement": {
+    "drawerTitle": "Gestión y Respuesta de Solicitud",
+    "drawerSubtitle": "Radicado {radicado} - Trámite oficial",
+    "tabOverview": "Detalle General",
+    "tabResponse": "Registrar Respuesta Final",
+    "tabStatus": "Actualizar Estado",
+    "tabHistory": "Historial de Gestión",
+    "applicant": {
+      "title": "Datos del Solicitante",
+      "anonymous": "Solicitud Radicada de Forma Anónima",
+      "name": "Nombre:",
+      "document": "Documento:",
+      "email": "Correo:",
+      "phone": "Teléfono:"
+    },
+    "responseForm": {
+      "title": "Respuesta Institucional al Ciudadano",
+      "description": "Al registrar la respuesta definitiva, el caso transicionará a estado Cerrado y se congelará el cómputo de días hábiles legales.",
+      "textareaLabel": "Texto de la Respuesta Final (10 a 4.000 caracteres):",
+      "textareaPlaceholder": "Redacte de manera formal, clara y completa la respuesta al requerimiento del ciudadano...",
+      "counter": "{current} / {max} caracteres",
+      "submitButton": "Enviar Respuesta y Cerrar Radicado",
+      "submitting": "Registrando respuesta y cerrando caso...",
+      "confirmationTitle": "¿Desea confirmar el cierre del radicado?",
+      "confirmationMessage": "Esta acción enviará la respuesta definitiva al ciudadano y dará por finalizada la tramitación del caso.",
+      "confirm": "Sí, Enviar y Cerrar",
+      "cancel": "Cancelar",
+      "successMessage": "La respuesta ha sido registrada y el radicado ha sido cerrado exitosamente."
+    },
+    "statusForm": {
+      "title": "Actualización de Estado Operativo",
+      "description": "Permite registrar hitos de avance o requerimientos de concepto interno manteniendo la solicitud en trámite.",
+      "statusLabel": "Estado Operativo:",
+      "statusInReview": "En trámite (InReview)",
+      "justificationLabel": "Justificación Obligatoria del Avance (10 a 500 caracteres):",
+      "justificationPlaceholder": "Describa la razón operativa, solicitud de concepto o hito interno...",
+      "submitButton": "Guardar Actualización",
+      "submitting": "Guardando...",
+      "successMessage": "Estado e historial actualizados correctamente."
+    },
+    "history": {
+      "title": "Historial de Gestión y Auditoría",
+      "empty": "No hay actualizaciones previas registradas para este radicado.",
+      "changedBy": "Registrado por:",
+      "date": "Fecha:",
+      "transition": "{from} → {to}",
+      "justification": "Justificación:"
+    },
+    "validation": {
+      "responseTooShort": "La respuesta debe contener al menos 10 caracteres.",
+      "responseTooLong": "La respuesta no puede exceder 4.000 caracteres.",
+      "justificationRequired": "Debe ingresar una justificación de al menos 10 caracteres.",
+      "justificationTooLong": "La justificación no puede exceder 500 caracteres.",
+      "ticketAlreadyClosed": "La solicitud ya se encuentra cerrada y no admite modificaciones.",
+      "unauthorized": "No tiene autorización para gestionar esta solicitud."
+    }
   }
 }
