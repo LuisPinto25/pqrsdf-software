@@ -131,12 +131,12 @@ export function TicketDetailDrawer({
                   <span>Fecha de Radicación</span>
                 </div>
                 <div className="text-sm font-semibold text-slate-900">
-                  {'filingDateUtc' in ticket ? formatDate((ticket as UnassignedTicketDto).filingDateUtc) : '-'}
+                  {'filingDateUtc' in ticket && ticket.filingDateUtc ? formatDate(ticket.filingDateUtc) : '-'}
                 </div>
               </div>
             </div>
 
-            {/* Assigned Official Info (If Assigned) */}
+            {/* Assigned Official Info (If Assigned by Admin) */}
             {isAssigned && assignedTicket && (
               <div className="p-4 bg-purple-50/50 rounded-xl border border-purple-200 space-y-3">
                 <div className="text-xs font-bold text-purple-900 uppercase tracking-wider flex items-center gap-1.5">
@@ -157,6 +157,25 @@ export function TicketDetailDrawer({
                     </div>
                   )}
                 </div>
+              </div>
+            )}
+
+            {/* Assignment Note & Date for Official's personal inbox */}
+            {!isAssigned && 'assignedAtUtc' in ticket && (
+              <div className="p-4 bg-institutional-50/60 rounded-xl border border-institutional-200 space-y-2">
+                <div className="text-xs font-bold text-institutional-900 uppercase tracking-wider flex items-center gap-1.5">
+                  <User className="w-4 h-4 text-institutional-700" />
+                  <span>Detalles de Asignación</span>
+                </div>
+                <div className="text-xs text-institutional-700">
+                  Asignado el {formatDate(ticket.assignedAtUtc)}
+                </div>
+                {ticket.assignmentNote && (
+                  <div className="mt-2 text-xs bg-white p-2.5 rounded-lg border border-institutional-100 text-slate-700">
+                    <span className="font-semibold text-slate-900 block mb-1">Instrucción recibida:</span>
+                    {ticket.assignmentNote}
+                  </div>
+                )}
               </div>
             )}
 

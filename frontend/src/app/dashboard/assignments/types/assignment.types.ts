@@ -25,6 +25,7 @@ export interface AssignedTicketDto {
   description?: string | null;
   assignedToUserId: string;
   assignedOfficialName: string;
+  filingDateUtc: string;
   assignedAtUtc: string;
   assignmentNote?: string | null;
   dueDateUtc: string;
@@ -77,6 +78,7 @@ export interface OfficialInboxItemDto {
   destinationAreaName: string;
   subject: string;
   description: string;
+  filingDateUtc: string;
   assignedAtUtc: string;
   assignmentNote?: string | null;
   dueDateUtc: string;
